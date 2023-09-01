@@ -1,6 +1,6 @@
-import { Component, Input, NgZone, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { UserInterface } from '../common/user.service';
+import { UserInterface } from '../_common/services/user.service';
 import { MatButtonModule } from '@angular/material/button';
 
 /**

@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthApiService } from '../auth.service';
-import { AsyncFormErrorStateMatcher } from 'src/app/common/formErrorChecker';
+import { AsyncFormErrorStateMatcher } from 'src/app/_common/formErrorChecker';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import Swal from 'sweetalert2';
 

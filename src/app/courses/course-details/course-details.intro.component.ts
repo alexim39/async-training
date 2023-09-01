@@ -1,24 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CourseInterface } from '../course.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'async-course-details-intro',
   standalone: true,
-  imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule],
   template: `
    <section>
     <article>
-      <h2>The Coding and Web Design Training</h2>
-
-      <h3>Mastering the Art of Web Development</h3>
-
-      <p>
-      Learn how to achieve success in professional programming and web design. The training will be led by <a href="https://www.linkedin.com/in/alex-imenwo-2b38b298/" target="_blank"><strong>Imenwo Alex</strong></a>, The Chief Technology Officer at Async Solutions Limited, this course equips you with essential skills to become comfortable in web design and programming. Learn proven strategies from a seasoned expert and unlock the power of effective design, and programming. Enroll now to excel in any web-related job and achieve your desired outcomes.
-      </p>
+      <h2>{{course.title | titlecase}}</h2>
+      <h3>{{course.subTitle}}</h3>
+      <p [innerHTML]="course.subTitleParagraph"></p>
     </article>
   </section>
   `,
@@ -110,4 +108,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 `]
 })
-export class CourseDetailsIntroComponent {}
+export class CourseDetailsIntroComponent implements OnInit{
+  @Input() course!: CourseInterface
+
+  ngOnInit(): void {
+    //console.log('course== ',this.course)
+  }
+}

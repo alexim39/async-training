@@ -2,10 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { UserInterface } from '../_common/services/user.service';
+
+export interface UserInterface {
+  email: string;
+  firstname: string;
+  lastname: string;
+  id: string;
+}
 
 @Injectable()
-export class AuthApiService {
+export class UserService {
   // Define API
   apiURL = 'http://localhost:3000';
   constructor(private http: HttpClient) {}
@@ -35,24 +41,12 @@ export class AuthApiService {
     });
   }
 
-  // user sign in
-  signIn(formObject: {email: string, password: string}): Observable<UserInterface> {
+  // get a user
+  getUser(): Observable<UserInterface> {
     return this.http
-      .post<UserInterface>(this.apiURL + '/users/signin', formObject, { withCredentials: true })
+      .get<UserInterface>(this.apiURL + '/users/user', { withCredentials: true })
       .pipe(retry(1), catchError(this.handleError));
   }
 
-  // user sign up
-  signUp(formObject: {email: string, password: string}): Observable<UserInterface> {
-    return this.http
-      .post<UserInterface>(this.apiURL + '/users/signup', formObject, { withCredentials: true })
-      .pipe(retry(1), catchError(this.handleError));
-  }
 
-  // user sign out
-  signOut(formObject: {}): Observable<UserInterface> {
-    return this.http
-      .post<UserInterface>(this.apiURL + '/users/signout', formObject, { withCredentials: true })
-      .pipe(retry(1), catchError(this.handleError));
-  }
 }

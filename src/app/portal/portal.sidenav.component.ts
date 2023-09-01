@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { UserInterface } from '../common/user.service';
+import { UserInterface } from '../_common/services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import {MatChipsModule} from '@angular/material/chips';

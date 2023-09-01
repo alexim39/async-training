@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Emitters } from '../common/emitters/emitters';
+import { Emitters } from '../_common/emitters/emitters';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PortalSidenavComponent } from './portal.sidenav.component';
-import { UserInterface, UserService } from '../common/user.service';
+import { UserInterface, UserService } from '../_common/services/user.service';
 import { PortalMainComponent } from './portal.main.component';
 import { RouterModule } from '@angular/router';
 

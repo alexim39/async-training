@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -10,18 +10,67 @@ import { CourseDetailsIntroComponent } from './course-details.intro.component';
 import { CourseDetailsAboutComponent } from './course-details.about.component';
 import { CourseDetailsBannerComponent } from './banner/banner.component';
 import { CourseDetailsOutcomesComponent } from './course-details.outcome.component';
+import { Subscription } from 'rxjs';
+import { CourseInterface } from '../course.interface';
+import { CourseService } from '../course.service';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'async-course-details-home',
   standalone: true,
-  imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
+  providers: [CourseService],
+  imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
   template: `
-    <async-course-details-intro id="intro"></async-course-details-intro>
-    <async-course-details-banner id="banner"></async-course-details-banner>
-    <async-course-details-about id="about"></async-course-details-about>
-    <async-course-details-outcomes id="outcomes"></async-course-details-outcomes>
+   <section class="breadcrumb-wrapper">
+      <div class="breadcrumb">
+          <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
+          <a routerLink="/courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
+          <span>{{course.title | titlecase}}</span>
+      </div>
+    </section>
+
+    <async-course-details-intro id="intro" [course]="course" *ngIf="isEmptyCourse"></async-course-details-intro>
+    <async-course-details-banner id="banner" [course]="course" *ngIf="isEmptyCourse"></async-course-details-banner>
+    <async-course-details-about id="about" [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
+    <async-course-details-outcomes id="outcomes" [course]="course" *ngIf="isEmptyCourse"></async-course-details-outcomes>
   `,
   styles: [`
   `]
 })
-export class CourseDetailsHomeComponent { }
+export class CourseDetailsHomeComponent implements OnInit, OnDestroy { 
+  subscriptions: Subscription[] = [];
+  id: string = '';
+  course!: CourseInterface;
+  isEmptyCourse = false;
+
+
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    private courseService: CourseService
+    ) {}
+
+  ngOnInit(): void {
+  this.subscriptions.push(
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.id = params['id'];
+      if (this.id) {
+        this.courseService.getCourse(this.id).subscribe(course => {
+          if (course) {
+            this.course = course;
+            this.isEmptyCourse = true;
+          }
+        })
+      }
+    })
+  );
+ 
+  }
+
+  ngOnDestroy(): void {
+    // unsubscribe list
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+}

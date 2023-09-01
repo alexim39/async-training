@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from './banner.price.component';
+import { CourseInterface } from '../../course.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'async-banner-program',
   standalone: true,
-  imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent],
+  imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent],
   template: `
    <article>
 
@@ -17,7 +19,7 @@ import { BannerPriceComponent } from './banner.price.component';
       <mat-icon>calendar_today</mat-icon>
       <div>
         <span>Duration</span>
-        <small> 4 Weeks <span class="start-date"> (7th August - 4th September)</span></small>
+        <small> {{course.duration | titlecase}} <span class="start-date"> ({{course.startDate | date }} - {{course.endDate | date }})</span></small>
       </div>
     </section>
 
@@ -25,7 +27,7 @@ import { BannerPriceComponent } from './banner.price.component';
       <mat-icon>attach_money</mat-icon>
       <div>
         <span>Expert-led Training</span>
-        <small> Paid</small>
+        <small> {{course.category | titlecase}}</small>
       </div>
     </section>
 
@@ -33,7 +35,7 @@ import { BannerPriceComponent } from './banner.price.component';
       <mat-icon>card_membership</mat-icon>
       <div>
         <span>Certificate</span>
-        <small> Optional</small>
+        <small> {{course.isCerficate ? 'Certificate issued' : 'No certificate issued'}}</small>
       </div>
     </section>
 
@@ -41,7 +43,7 @@ import { BannerPriceComponent } from './banner.price.component';
       <mat-icon>language</mat-icon>
       <div>
         <span>Language</span>
-        <small> English</small>
+        <small> {{course.language | titlecase}}</small>
       </div>
     </section>
 
@@ -89,4 +91,10 @@ import { BannerPriceComponent } from './banner.price.component';
     }
   `]
 })
-export class BannerProgramComponent {}
+export class BannerProgramComponent implements OnInit {
+  @Input() course!: CourseInterface
+
+  ngOnInit(): void {
+    //console.log('course ',this.course)
+  }
+}

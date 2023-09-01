@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CourseInterface } from '../course.interface';
 
 @Component({
   selector: 'async-course-details-outcomes',
@@ -14,15 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
    <article>
       <h3>Key Learning Outcomes</h3>
 
-      <p>
-      After attending the training, participants will understand the basics of Internet operations and how to build and code a website using below technologies:
-      </p>
-      <ul>
-        <li>Build a simple static and dynamic website from start to finish</li>
-        <li>Build simple web applications using MongoDB, ExpressJS, Angular, and Nodejs (MEAN) stack</li>
-        <li>Understand the principles of the Internet (Web Engineering)</li>
-        <li>Learn how to use version control systems like Git, Github, and GitBucket</li>
-      </ul>
+      <p [innerHTML]="course.keyLearningOutcome"></p>
     </article>
    </section>
   `,
@@ -44,6 +37,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         }
         ul {
           li {
+            color: black;
+            font-weight: bold;
             line-height: 2;
           }
         }
@@ -94,4 +89,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 `]
 })
-export class CourseDetailsOutcomesComponent {}
+export class CourseDetailsOutcomesComponent implements OnInit {
+  @Input() course!: CourseInterface
+
+  ngOnInit(): void {
+    //console.log('course== ',this.course)
+  }
+}

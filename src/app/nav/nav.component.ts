@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LogoComponent } from '../common/logo.component';
+import { LogoComponent } from '../_common/logo.component';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,18 +12,19 @@ import { AuthComponent } from '../auth/auth.component';
 // declare jquery as any
 declare const $: any;
 import {MatDialogModule} from '@angular/material/dialog';
-import { NotificationBannerComponent } from '../index/notification-banner/notification-banner.component';
-import { Emitters } from '../common/emitters/emitters';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NotificationBannerComponent } from './notification-banner/notification-banner.component';
+import { Emitters } from '../_common/emitters/emitters';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthApiService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 
 
 @Component({
   selector: 'async-nav',
   standalone: true,
   providers: [AuthApiService],
-  imports: [MatToolbarModule,MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
+  imports: [MatToolbarModule, BreadcrumbComponent, MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
   template: `
 
   <!-- THIS IS A TEMPORARY NOTIFICATION BANNER - FOR TRAILING TRAINING -->
@@ -67,6 +68,8 @@ import { Subscription } from 'rxjs';
 
 
    </mat-toolbar>
+
+   <!-- <async-breadcrumb></async-breadcrumb> -->
 
 
 <!--     <mat-menu #menu="matMenu">

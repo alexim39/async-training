@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
+import { CourseInterface } from '../../course.interface';
 
 @Component({
   selector: 'async-banner-price',
@@ -13,8 +14,8 @@ import { CommonModule } from '@angular/common';
   template: `
 
     <article class="price">
-      <p><span class="current">&#8358;25,000.00</span> <span class="divider"> | </span> <span class="old"> &#8358;45,000.00</span></p>
-      <small>Take advantage of this career transformation training</small>
+      <p><span class="current">{{course.currentPrice | currency:"NGN":"&#8358;" }}</span> <span class="divider"> | </span> <span class="old"> {{course.oldPrice | currency:"NGN":"&#8358;" }}</span></p>
+      <small [innerHTML]="course.panelMsg"></small>
 
       <hr>
 
@@ -55,10 +56,16 @@ import { CommonModule } from '@angular/common';
       }
   `]
 })
-export class BannerPriceComponent {
+export class BannerPriceComponent implements OnInit {
+  @Input() course!: CourseInterface
+  
   isAddedToCard = true;
 
   constructor(private router: Router) { }
+
+  ngOnInit(): void {
+    //console.log('course ',this.course)
+  }
 
   addToCart() {
     this.isAddedToCard = !this.isAddedToCard;

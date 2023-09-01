@@ -20,11 +20,11 @@ export const PortalRoutes: Routes = [
         component: CoursesListHomeComponent,
         title:"Course details - Course available for study"
       },
-      /* {
-        path: 'details',
+      {
+        path: 'details/:id',
         component: CourseDetailsHomeComponent,
         title:"Course details - Course available for study"
-      }, */
+      },
     ]
   },
 

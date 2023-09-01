@@ -16,4 +16,4 @@ import { RouterModule } from '@angular/router';
   `,
   styles: [``],
 })
-export class CoursesListComponent {}
+export class CoursesListComponent{}
