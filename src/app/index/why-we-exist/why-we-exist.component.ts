@@ -6,13 +6,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from '../../auth/auth.component';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'async-index-why-we-exist',
   standalone: true,
-  imports: [RouterModule, MatIconModule, MatButtonModule,  MatFormFieldModule, MatInputModule],
+  imports: [RouterModule, MatIconModule, MatButtonModule,  MatFormFieldModule, MatInputModule, CommonModule],
   template: `
-    <aside>
+    <aside [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <div>
         <span>Book Your Slot for Remote Coaching</span>
         <span>We Help You Climb Your Career Ladder Like A Pro</span>
@@ -27,50 +30,39 @@ import { AuthComponent } from '../../auth/auth.component';
       <button (click)="openAuthComponent()" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">JOIN NOW</button>
     </aside>
   `,
-  styles: [`
-  aside {
-    padding: 3em 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    div {
-      margin: 0 1em 0 1em;
-      display: flex;
-      flex-direction: row;
-      span {
-        margin-left: 1em;
-        color: #AD1457;
-        font-family: Verdana;
-        display: list-item;
-        list-style-type: disc;
-        list-style-position: inside;
-      }
-    }
-    h1 {
-      font-weight: bolder;
-      text-align: justify;
-      margin: 1em;
-    }
-    small {
-      text-align: justify;
-      margin: 0 1em;
-    }
-    button {
-      margin-top: 2em;
-    }
-  }
-`],
+  styleUrls: ['why-we-exist.light-theme.scss', 'why-we-exist.dark-theme.scss'],
 })
-export class WhyWeExistComponent {
+export class WhyWeExistComponent implements OnInit{
+  // init subscriptions list
+  subscriptions: Subscription[] = [];
+  isDarkMode: boolean = false;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private themeTogglerService: ThemeTogglerService
   ) { }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
+      })
+    )
+  }
 
 
   openAuthComponent() {
     this.dialog.open(AuthComponent);
+  }
+
+  ngOnDestroy() {
+    // unsubscribe list
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 
 }

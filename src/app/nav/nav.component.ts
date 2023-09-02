@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthApiService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent } from '../_common/breadcrumb.component';
+import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ import { BreadcrumbComponent } from '../_common/breadcrumb.component';
   <async-notification-banner></async-notification-banner>
 
 
-   <mat-toolbar [ngClass]="status ? 'dark-mode' : ''">
+   <mat-toolbar [ngClass]="isDarkMode ? 'dark-mode' : ''">
     <mat-toolbar-row>
 
     <span class="logo"><async-logo></async-logo></span>
@@ -45,7 +46,9 @@ import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 
     <!-- <mat-icon class="cart" (click)="addToCart()" >shopping_cart</mat-icon> -->
     <span matTooltip="Join Whatsapp group" (click)="lunchWhatsAppGroup()" class="fa fa-whatsapp"></span>
-    <!-- <i matTooltip="Togle light and dark mode" class="fa fa-moon-o" (click)="darkMode()"></i> -->
+
+    <i matTooltip="Togle light and dark mode" class="fa fa-moon-o" (click)="darkMode()" *ngIf="!isDarkMode"></i>
+    <i matTooltip="Togle light and dark mode" class="fa fa-sun-o" (click)="darkMode()" *ngIf="isDarkMode"></i>
 
     <button class="view-on-desktop" mat-stroked-button (click)="openAuthComponent()" *ngIf="!authenticated">Login</button>
     <button class="view-on-desktop" mat-stroked-button (click)="signOut()" *ngIf="authenticated">Log out</button>
@@ -57,7 +60,7 @@ import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 
 
 
-    <mat-toolbar-row class="mobile-nav" id="mobile-nav" *ngIf="showMobileNave">
+    <mat-toolbar-row class="mobile-nav" id="mobile-nav" *ngIf="showMobileNav">
       <a mat-button routerLink="about-async-training">About Us</a>
       <a mat-button routerLink="courses" *ngIf="!authenticated">Courses</a>
       
@@ -79,11 +82,7 @@ import { BreadcrumbComponent } from '../_common/breadcrumb.component';
     </mat-menu> -->
   `,
   styles: [`
-  .dark-mode {
-    background: black;
-    color: white;
-  }
-
+ 
 mat-toolbar {
   position: sticky;
   position: -webkit-sticky; /* For macOS/iOS Safari */
@@ -123,7 +122,7 @@ mat-toolbar {
     margin-left: 1em;
   }
 
-  .fa-moon-o {
+  .fa-moon-o,.fa-sun-o {
     margin-left: 1em;
   }
 
@@ -171,8 +170,8 @@ export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list
   subscriptions: Subscription[] = [];
 
-  status: boolean = false;
-  showMobileNave = false;
+  isDarkMode: boolean = false;
+  showMobileNav = false;
 
   authenticated = false;
 
@@ -180,6 +179,7 @@ export class NavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private authAPI: AuthApiService,
     private router: Router,
+    private themeTogglerService: ThemeTogglerService
   ) { }
 
   ngOnInit() {
@@ -211,11 +211,13 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   toggleMobileNav() {
-    this.showMobileNave = !this.showMobileNave;
+    this.showMobileNav = !this.showMobileNav;
   }
 
   darkMode() {
-    this.status = !this.status;
+    this.isDarkMode = !this.isDarkMode;
+    // Trigger the action in the shared service
+    this.themeTogglerService.triggerToggleAction(this.isDarkMode);
   }
 
   lunchWhatsAppGroup() {

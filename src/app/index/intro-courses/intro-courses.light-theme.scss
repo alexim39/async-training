@@ -1,0 +1,70 @@
+section {
+    background: #EEEEEE;
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    text-decoration: none;
+    color: black;
+    flex-wrap: wrap;
+
+    mat-card {
+      width: 20em;
+      margin: 1em 1em 0 0;
+      cursor: pointer;
+      flex-grow: 1;
+      flex-basis: 150px;
+        img {
+          width: auto;
+          height: 20em;
+        }
+        mat-card-content {
+          font-family: cursive;
+          font-size: 0.8em;
+          height: 10em;
+        }
+        mat-card-actions {
+
+          display: flex;
+          justify-content: space-evenly;
+          padding-right: 2em;
+          margin: 0;
+          padding: 0;
+
+          .price {
+            font-size: 0.7em;
+            .current {
+
+              font-family: "Open Sans", sans;
+              color: #00838F;
+            }
+            .divider {
+              color: #aaa;
+            }
+            .old {
+              color: #aaa;
+              text-decoration: line-through
+            }
+          }
+
+          .duration {
+            font-size: 0.7em;
+            .material-icons {
+              font-size: 0.9em;
+            }
+          }
+
+          .join {
+            span {
+              border: 1px solid #00838F;
+              border-radius: 50%;
+              color: #00838F;
+            }
+          }
+
+        }
+    }
+  }
+
+  .view-all-courses {
+    justify-content: center;
+  }

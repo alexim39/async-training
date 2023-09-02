@@ -1,16 +1,19 @@
-import {Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 
 @Component({
   selector: 'async-index-testimonials',
   standalone: true,
-  styleUrls: [`testimonials.component.scss`],
-  imports: [MatButtonModule, MatDividerModule, MatIconModule],
+  styleUrls: ['testimonials.light-theme.scss', 'testimonials.dark-theme.scss'],
+  imports: [MatButtonModule, MatDividerModule, MatIconModule, CommonModule],
   template: `
-    <article>
+    <article [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <h1>Testimonials</h1>
 
       <section>
@@ -56,4 +59,30 @@ import {MatButtonModule} from '@angular/material/button';
   `,
 
 })
-export class TestimonialsComponent{}
+export class TestimonialsComponent implements OnInit, OnDestroy{
+  // init subscriptions list
+  subscriptions: Subscription[] = [];
+  isDarkMode: boolean = false;
+
+  constructor(
+    private themeTogglerService: ThemeTogglerService
+  ) { }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
+      })
+    )
+  }
+
+  ngOnDestroy() {
+    // unsubscribe list
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
+  }
+}
