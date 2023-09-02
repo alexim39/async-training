@@ -2,16 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-
-export interface UserInterface {
-    email: string;
-    firstname: string;
-    lastname: string;
-    id: string;
-}
+import { CourseInterface } from './course.interface';
 
 @Injectable()
-export class UserService {
+export class CourseService {
   // Define API
   apiURL = 'http://localhost:3000';
   constructor(private http: HttpClient) {}
@@ -41,12 +35,19 @@ export class UserService {
     });
   }
 
-  // get a user
-  getUser(): Observable<UserInterface> {
+  // get all courses
+  getCourses(): Observable<Array<CourseInterface>> {
     return this.http
-      .get<UserInterface>(this.apiURL + '/users/user', { withCredentials: true })
+      .get<Array<CourseInterface>>(this.apiURL + '/courses', { withCredentials: true })
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  // get a course
+  getCourse(id: string): Observable<CourseInterface> {
+    return this.http
+      .get<CourseInterface>(this.apiURL + `/courses/${id}`, { withCredentials: true })
+      .pipe(retry(1), catchError(this.handleError));
+  }
 
+ 
 }

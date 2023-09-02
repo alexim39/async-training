@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LogoComponent } from '../common/logo.component';
+import { LogoComponent } from '../_common/logo.component';
 import { FooterContactComponent } from './footer.contact.component';
 import { FooterConnectedComponent } from './footer.connected.component';
 

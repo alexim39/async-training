@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from './banner.price.component';
 import { BannerProgramComponent } from './banner.program.component';
+import { CourseInterface } from '../../course.interface';
 
 @Component({
   selector: 'async-banner-media',
@@ -15,8 +16,8 @@ import { BannerProgramComponent } from './banner.program.component';
   <section>
     <article>
         <video controls>
-          <source src="./assets/vid/website_promotion.mp4" type="video/mp4">
-        Your browser does not support the video tag.
+          <source [src]="mediaSource" type="video/mp4">
+          Your browser does not support the video tag.
       </video>
     </article>
   </section>
@@ -57,4 +58,7 @@ import { BannerProgramComponent } from './banner.program.component';
 }
 `]
 })
-export class BannerMediaComponent {}
+export class BannerMediaComponent {
+  mediaSource = `./assets/vid/website_promotion.mp4`;
+  @Input() course!: CourseInterface
+}

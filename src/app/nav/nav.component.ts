@@ -4,26 +4,27 @@ import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LogoComponent } from '../common/logo.component';
+import { LogoComponent } from '../_common/logo.component';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from '../auth/auth.component';
 // declare jquery as any
 declare const $: any;
-import {MatDialogModule} from '@angular/material/dialog';
-import { NotificationBannerComponent } from '../index/notification-banner/notification-banner.component';
-import { Emitters } from '../common/emitters/emitters';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NotificationBannerComponent } from './notification-banner/notification-banner.component';
+import { Emitters } from '../_common/emitters/emitters';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthApiService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 
 
 @Component({
   selector: 'async-nav',
   standalone: true,
   providers: [AuthApiService],
-  imports: [MatToolbarModule,MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
+  imports: [MatToolbarModule, BreadcrumbComponent, MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
   template: `
 
   <!-- THIS IS A TEMPORARY NOTIFICATION BANNER - FOR TRAILING TRAINING -->
@@ -58,15 +59,18 @@ import { Subscription } from 'rxjs';
 
     <mat-toolbar-row class="mobile-nav" id="mobile-nav" *ngIf="showMobileNave">
       <a mat-button routerLink="about-async-training">About Us</a>
-      <a mat-button routerLink="courses">Courses</a>
-
+      <a mat-button routerLink="courses" *ngIf="!authenticated">Courses</a>
+      
       <span class="spacer"></span>
 
-      <button mat-stroked-button (click)="openAuthComponent()">Login</button>
+      <button mat-stroked-button (click)="openAuthComponent()" *ngIf="!authenticated">Login</button>
+      <button mat-stroked-button (click)="signOut()" *ngIf="authenticated">Log out</button>
     </mat-toolbar-row>
 
 
    </mat-toolbar>
+
+   <!-- <async-breadcrumb></async-breadcrumb> -->
 
 
 <!--     <mat-menu #menu="matMenu">
@@ -166,7 +170,7 @@ mat-toolbar {
 export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list
   subscriptions: Subscription[] = [];
-  
+
   status: boolean = false;
   showMobileNave = false;
 
@@ -176,28 +180,30 @@ export class NavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private authAPI: AuthApiService,
     private router: Router,
-  ) {}
+  ) { }
 
-  ngOnInit(){ 
+  ngOnInit() {
     // listern to auth event emitter to check if user is signed in or not
-    Emitters.authEmitter.subscribe(
-      (auth: boolean) => {
-        this.authenticated = auth;
-      }
+    this.subscriptions.push(
+      Emitters.authEmitter.subscribe(
+        (auth: boolean) => {
+          this.authenticated = auth;
+        }
+      )
     )
   }
 
   signOut(): void {
 
     this.subscriptions.push(
-      this.authAPI.signOut({}).subscribe( res => {
-      this.authenticated = false;
-      // redirect to login page
-      this.router.navigate(['/'])
-    })
+      this.authAPI.signOut({}).subscribe(res => {
+        this.authenticated = false;
+        // redirect to login page
+        this.router.navigate(['/'])
+      })
     )
 
-    
+
   }
 
   openAuthComponent() {
@@ -216,11 +222,7 @@ export class NavComponent implements OnInit, OnDestroy {
     window.open('https://chat.whatsapp.com/JGcvWWYcQWJ4bAADdRnp1A', '_blank');
   }
 
-  makePayment() {
-    window.open('https://paystack.com/pay/async-training');
-  }
 
-  addToCart() {  }
 
   ngOnDestroy() {
     // unsubscribe list

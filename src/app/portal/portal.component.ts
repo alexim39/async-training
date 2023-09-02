@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Emitters } from '../common/emitters/emitters';
+import { Emitters } from '../_common/emitters/emitters';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PortalSidenavComponent } from './portal.sidenav.component';
-import { UserInterface, UserService } from '../common/user.service';
+import { UserInterface, UserService } from '../_common/services/user.service';
 import { PortalMainComponent } from './portal.main.component';
 import { RouterModule } from '@angular/router';
 
@@ -19,9 +19,13 @@ import { RouterModule } from '@angular/router';
   template: `
   
   <div class="wrapper">
+    <div  class="fixed-div">
+      <async-portal-sidenav [user]="user" *ngIf="user"></async-portal-sidenav>
+    </div>
     
-    <async-portal-sidenav [user]="user" *ngIf="user"></async-portal-sidenav>
-    <router-outlet></router-outlet>
+    <div class="flexible-div">
+      <router-outlet></router-outlet>
+    </div>
     
   </div>
   `,
@@ -29,10 +33,31 @@ import { RouterModule } from '@angular/router';
 
   .wrapper {
     display: flex;
-    flex-direction: row;
-    flex: 1;
+    flex-wrap: wrap;
   }
 
+  .fixed-div {
+    flex: 0 0 250px; /* Fixed width of 300px */
+  }
+
+  .flexible-div {
+    flex: 1; /* Flexible div to occupy remaining space */
+  }
+
+/* Media query for mobile responsiveness */
+@media screen and (max-width: 600px) {
+    .container {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+    }
+
+    .fixed-div {
+        flex: 0 0 100%; /* Full width for the fixed div */
+    }
+
+    .flexible-div {
+        flex: 0 0 100%; /* Full width for the flexible div */
+    }
+}
 
   `],
 })

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from './banner.price.component';
 import { BannerProgramComponent } from './banner.program.component';
 import { BannerMediaComponent } from './banner.media.component';
+import { CourseInterface } from '../../course.interface';
 
 @Component({
   selector: 'async-course-details-banner',
@@ -14,9 +15,9 @@ import { BannerMediaComponent } from './banner.media.component';
   imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent, BannerMediaComponent],
   template: `
    <section>
-    <async-banner-media></async-banner-media>
-    <async-banner-price></async-banner-price>
-    <async-banner-program></async-banner-program>
+    <async-banner-media [course]="course"></async-banner-media>
+    <async-banner-price [course]="course"></async-banner-price>
+    <async-banner-program [course]="course"></async-banner-program>
    </section>
   `,
   styles: [`
@@ -80,4 +81,14 @@ import { BannerMediaComponent } from './banner.media.component';
 
 `]
 })
-export class CourseDetailsBannerComponent {}
+export class CourseDetailsBannerComponent implements OnInit {
+  @Input() course!: CourseInterface
+  //isEmptyCourse = false;
+
+
+  ngOnInit(): void {
+   /*  if (this.course) {
+      this.isEmptyCourse = true;
+    } */
+  }
+}
