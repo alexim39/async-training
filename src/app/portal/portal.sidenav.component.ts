@@ -54,87 +54,84 @@ import {MatChipsModule} from '@angular/material/chips';
 
     </div>
   `,
-  styles: [
-    `
-      * {
-        list-style: none;
-        text-decoration: none;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Open Sans', sans-serif;
-      }
-      .sidenav {
-        width: 225px;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #00838f;
-        height: 100%;
-        padding: 20px 0;
-        transition: all 0.5s ease;
-        border-right: 1px solid #097c87;
-        height: 100%;
-        .profile {
-          margin-bottom: 30px;
-          text-align: center;
+  styles: [`
+* {
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+.sidenav {
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #00838f;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+  border-right: 1px solid #097c87;
+  height: 100%;
+  .profile {
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+    h3 {
+      color: #ffffff;
+      margin: 10px 0 5px;
+    }
+    p {
+      color: rgb(206, 240, 253);
+      font-size: 14px;
+    }
+    mat-chip-listbox {
+      
+    }
+  }
+
+    ul {
+      li {
+        a {
           display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          img {
+          padding: 13px 30px;
+          border-bottom: 1px solid #008c99;
+          color: rgb(241, 237, 237);
+          mat-icon{
+            font-family: 'Material Icons' !important;
+            margin-right: 10px;
+          }
+
+          &:hover,
+          .active {
+            color: #0c7db1;
+            background: white;
+            border-right: 2px solid rgb(5, 68, 104);
+          }
+          &:hover:before,
+          &.active:before {
             display: block;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto;
-          }
-          h3 {
-            color: #ffffff;
-            margin: 10px 0 5px;
-          }
-          p {
-            color: rgb(206, 240, 253);
-            font-size: 14px;
-          }
-          mat-chip-listbox {
-            
-          }
-        }
-
-        ul {
-          li {
-            a {
-              display: flex;
-              padding: 13px 30px;
-              border-bottom: 1px solid #008c99;
-              color: rgb(241, 237, 237);
-              mat-icon{
-                font-family: 'Material Icons' !important;
-                margin-right: 10px;
-             }
-
-              &:hover,
-              .active {
-                color: #0c7db1;
-                background: white;
-                border-right: 2px solid rgb(5, 68, 104);
-              }
-              &:hover:before,
-              &.active:before {
-                display: block;
-              }
-            }
           }
         }
       }
-    `,
-  ],
+    }
+}
+`],
 })
 export class PortalSidenavComponent implements OnInit {
   @Input() user!: UserInterface;
 
   ngOnInit(): void {
-    console.log(this.user);
+    //console.log(this.user);
   }
 }

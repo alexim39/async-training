@@ -13,12 +13,12 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatIconModule, MatButtonModule],
   template: `
     <div class="content">
-      
+      dashborad contents comes in here
     </div>
   `,
   styles: [`
 .content {
-
+  background: yellow;
 }
   `]
 

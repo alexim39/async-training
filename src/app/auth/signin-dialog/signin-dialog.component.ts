@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthComponent } from '../auth.component';
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationStart, NavigationEnd, } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -14,6 +13,7 @@ import { AuthApiService } from '../auth.service';
 import { AsyncFormErrorStateMatcher } from 'src/app/_common/formErrorChecker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import Swal from 'sweetalert2';
+import { Emitters } from 'src/app/_common/emitters/emitters';
 
 
 @Component({
@@ -66,11 +66,10 @@ import Swal from 'sweetalert2';
 export class SigninDialogComponent implements OnInit, OnDestroy {
 
   signIn_hide = true;
-  //currentUser: UserInterface;
   subscriptions: Subscription[] = [];
   form!: FormGroup;
   isSpinning: boolean = false;
-
+  currentRouteCourseId = ''
   matcher = new AsyncFormErrorStateMatcher();
 
 
@@ -78,10 +77,13 @@ export class SigninDialogComponent implements OnInit, OnDestroy {
     private thisDialogRef: MatDialogRef<AuthComponent>,
     private router: Router,
     private authAPI: AuthApiService,
-  ) { }
+  ) {}
 
 
   ngOnInit(): void {
+    // check current route of user
+    const parts = this.router.url.split('/');
+    this.currentRouteCourseId = parts[parts.length - 1]; // This will print "64f1a27ce709366c3d55e247"
 
     this.form = new FormGroup({
       email: new FormControl('', {
@@ -105,12 +107,22 @@ export class SigninDialogComponent implements OnInit, OnDestroy {
     this.isSpinning = true;
 
     this.subscriptions.push(
-
       this.authAPI.signIn(formObject).subscribe(res => {
-        
-        this.closeDialog();
-        this.isSpinning = false;
-        this.router.navigate(['/portal']);
+
+        if (this.currentRouteCourseId.length === 24) {
+          // user viewing from course detail page
+          // may be user is already logged
+          
+          this.closeDialog();
+          this.isSpinning = false;
+          this.router.navigate([`/portal/courses/details/${this.currentRouteCourseId}`]);
+          
+        } else {
+          this.closeDialog();
+          this.isSpinning = false;
+          this.router.navigate(['/portal']);
+        }
+
       }, error => {
         this.isSpinning = false;
         if (error.code == 404) {// user not found
@@ -146,7 +158,7 @@ export class SigninDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();
     });
-  }
+  }  
 
 }
 

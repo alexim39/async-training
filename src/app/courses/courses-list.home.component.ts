@@ -122,18 +122,21 @@ import { Subscription } from 'rxjs';
 
 /* Extra small devices (phones, 768px and down) */
 @media only screen and (max-width: 768px) {
-.search-box {
-
-    mat-form-field {
-      width: 100%;
-    }
+  .courses-list {
+      article {
+        font-size: 1.5em;
+        padding: 0.5em 0;
+      }
   }
+  .search-box {
+      mat-form-field {
+        width: 100%;
+      }
+    }
 }
 
 `],
   template: `
-    <!-- <router-outlet></router-outlet> -->
-
 
     <div class="courses-list">
       <article>Courses List</article>
@@ -363,7 +366,15 @@ export class CoursesListHomeComponent implements OnInit {
     }
 
     loadCourse(id: string) {
-     this.router.navigate([`/courses/details/${id}`])
+
+      if (this.router.url.includes('portal')) {
+        // redirect to the course route on portal 
+        this.router.navigate([`/portal/courses/details/${id}`])
+      } else {
+        // redirect to course route
+        this.router.navigate([`/courses/details/${id}`])
+      }
+
     }
 
     ngOnDestroy() {

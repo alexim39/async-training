@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ActivatedRoute, Params, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,10 +22,18 @@ import { CommonModule } from '@angular/common';
   providers: [CourseService],
   imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
   template: `
-   <section class="breadcrumb-wrapper">
-      <div class="breadcrumb">
+   <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse">
+      <!-- show when viewing from outside portal -->
+      <div class="breadcrumb" *ngIf="!isPortalView">
           <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
           <a routerLink="/courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
+          <span>{{course.title | titlecase}}</span>
+      </div>
+
+      <!-- show when viewing from inside portal -->
+      <div class="breadcrumb" *ngIf="isPortalView">
+          <a routerLink="/portal" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
+          <a routerLink="/portal/courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
           <span>{{course.title | titlecase}}</span>
       </div>
     </section>
@@ -43,27 +51,36 @@ export class CourseDetailsHomeComponent implements OnInit, OnDestroy {
   id: string = '';
   course!: CourseInterface;
   isEmptyCourse = false;
+  isPortalView = false;
 
 
   constructor(
+    private router: Router,
     public activatedRoute: ActivatedRoute,
     private courseService: CourseService
     ) {}
 
   ngOnInit(): void {
-  this.subscriptions.push(
-    this.activatedRoute.params.subscribe((params: Params) => {
-      this.id = params['id'];
-      if (this.id) {
-        this.courseService.getCourse(this.id).subscribe(course => {
-          if (course) {
-            this.course = course;
-            this.isEmptyCourse = true;
-          }
-        })
-      }
-    })
-  );
+    if (this.router.url.includes('portal')) {
+      // portal course view
+      this.isPortalView = true;
+    } else {
+      // its not portal course view
+      this.isPortalView = false;
+    }
+    this.subscriptions.push(
+      this.activatedRoute.params.subscribe((params: Params) => {
+        this.id = params['id'];
+        if (this.id) {
+          this.courseService.getCourse(this.id).subscribe(course => {
+            if (course) {
+              this.course = course;
+              this.isEmptyCourse = true;
+            }
+          })
+        }
+      })
+    );
  
   }
 

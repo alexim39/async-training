@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from '../auth/auth.component';
 // declare jquery as any
 declare const $: any;
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NotificationBannerComponent } from './notification-banner/notification-banner.component';
 import { Emitters } from '../_common/emitters/emitters';
 import { HttpClientModule } from '@angular/common/http';
@@ -59,11 +59,12 @@ import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 
     <mat-toolbar-row class="mobile-nav" id="mobile-nav" *ngIf="showMobileNave">
       <a mat-button routerLink="about-async-training">About Us</a>
-      <a mat-button routerLink="courses">Courses</a>
-
+      <a mat-button routerLink="courses" *ngIf="!authenticated">Courses</a>
+      
       <span class="spacer"></span>
 
-      <button mat-stroked-button (click)="openAuthComponent()">Login</button>
+      <button mat-stroked-button (click)="openAuthComponent()" *ngIf="!authenticated">Login</button>
+      <button mat-stroked-button (click)="signOut()" *ngIf="authenticated">Log out</button>
     </mat-toolbar-row>
 
 
@@ -169,7 +170,7 @@ mat-toolbar {
 export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list
   subscriptions: Subscription[] = [];
-  
+
   status: boolean = false;
   showMobileNave = false;
 
@@ -179,28 +180,30 @@ export class NavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private authAPI: AuthApiService,
     private router: Router,
-  ) {}
+  ) { }
 
-  ngOnInit(){ 
+  ngOnInit() {
     // listern to auth event emitter to check if user is signed in or not
-    Emitters.authEmitter.subscribe(
-      (auth: boolean) => {
-        this.authenticated = auth;
-      }
+    this.subscriptions.push(
+      Emitters.authEmitter.subscribe(
+        (auth: boolean) => {
+          this.authenticated = auth;
+        }
+      )
     )
   }
 
   signOut(): void {
 
     this.subscriptions.push(
-      this.authAPI.signOut({}).subscribe( res => {
-      this.authenticated = false;
-      // redirect to login page
-      this.router.navigate(['/'])
-    })
+      this.authAPI.signOut({}).subscribe(res => {
+        this.authenticated = false;
+        // redirect to login page
+        this.router.navigate(['/'])
+      })
     )
 
-    
+
   }
 
   openAuthComponent() {
@@ -219,11 +222,7 @@ export class NavComponent implements OnInit, OnDestroy {
     window.open('https://chat.whatsapp.com/JGcvWWYcQWJ4bAADdRnp1A', '_blank');
   }
 
-  makePayment() {
-    window.open('https://paystack.com/pay/async-training');
-  }
 
-  addToCart() {  }
 
   ngOnDestroy() {
     // unsubscribe list

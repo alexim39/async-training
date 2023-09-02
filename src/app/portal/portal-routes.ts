@@ -3,6 +3,7 @@ import { PortalComponent } from "./portal.component";
 import { CoursesListHomeComponent } from "../courses/courses-list.home.component";
 import { PortalMainComponent } from "./portal.main.component";
 import { CourseDetailsHomeComponent } from "../courses/course-details/course-details.home.component";
+import { PortalCoursesListComponent } from "./course.component";
 
 export const PortalRoutes: Routes = [
 
@@ -17,14 +18,21 @@ export const PortalRoutes: Routes = [
       },
       {
         path: 'courses',
-        component: CoursesListHomeComponent,
-        title:"Course details - Course available for study"
+        component: PortalCoursesListComponent,
+        children: [
+          {
+            path: '',
+            component: CoursesListHomeComponent,
+            title:"Courses available - Course available for study",
+          },
+          {
+            path: 'details/:id',
+            component: CourseDetailsHomeComponent,
+            title:"Course details - Course available for study"
+          },
+        ]
       },
-      {
-        path: 'details/:id',
-        component: CourseDetailsHomeComponent,
-        title:"Course details - Course available for study"
-      },
+      
     ]
   },
 
