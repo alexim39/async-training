@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CourseService } from './course.service';
 import { CourseInterface } from './course.interface';
 import { Subscription } from 'rxjs';
+import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
+import { LoadingSpinnerService } from '../_common/services/loader/spinner.service';
 
 /**
  * @title Main component for course listing
@@ -19,7 +21,7 @@ import { Subscription } from 'rxjs';
   selector: 'async-courses-list-home',
   standalone: true,
   providers: [CourseService],
-  imports: [MatButtonModule, MatDividerModule, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
+  imports: [MatButtonModule, LoadingSpinnerComponent, MatDividerModule, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
   styles: [`
   .courses-list {
     background: #00838F;
@@ -137,12 +139,15 @@ import { Subscription } from 'rxjs';
 
 `],
   template: `
+  <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
+
+
 
     <div class="courses-list">
       <article>Courses List</article>
     </div>
 
-    <div class="search-box" *ngIf="isEmptyCourse">
+    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0">
       <mat-form-field appearance="outline">
         <mat-label>Search or filter courses</mat-label>
         <input matInput [(ngModel)]="filterCourse">
@@ -153,7 +158,7 @@ import { Subscription } from 'rxjs';
     </div>
 
   
-    <ng-template [ngIf]="isEmptyCourse" [ngIfElse]="noCourseFound">
+    <ng-template [ngIf]="filteredCourseList.length > 0">
       <section>
         <mat-card (click)="loadCourse(course._id)" *ngFor="let course of filteredCourseList; index as i;">
           <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
@@ -173,7 +178,7 @@ import { Subscription } from 'rxjs';
         </mat-card>
       </section>
   </ng-template>
-  <ng-template #noCourseFound>
+  <ng-template [ngIf]="filteredCourseList.length == 0">
     <div class="no-course-found">
         <p>No course available</p>
     </div>
@@ -342,11 +347,12 @@ export class CoursesListHomeComponent implements OnInit {
   subscriptions: Subscription[] = [];
   filterCourse = '';
   courses!: Array<CourseInterface>;
-  isEmptyCourse = false;
+  //isEmptyCourse = true;
 
     constructor(
       private router: Router,
       private courseService: CourseService,
+      public loadingSpinnerService: LoadingSpinnerService
     ) { }
 
     get filteredCourseList(): CourseInterface[] {
@@ -354,13 +360,16 @@ export class CoursesListHomeComponent implements OnInit {
     }
 
     ngOnInit() {
+      this.loadingSpinnerService.show();
+      
       this.subscriptions.push(
         this.courseService.getCourses().subscribe(courses => {
           if (courses) {
             this.courses = courses;
-            this.isEmptyCourse = true;
-          }
+            //this.isEmptyCourse = false;
+            this.loadingSpinnerService.hide()
 
+          }
         })
       )
     }
