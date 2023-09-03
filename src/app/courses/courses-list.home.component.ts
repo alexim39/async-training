@@ -180,7 +180,7 @@ import { LoadingSpinnerService } from '../_common/services/loader/spinner.servic
   </ng-template>
   <ng-template [ngIf]="filteredCourseList.length == 0">
     <div class="no-course-found">
-        <p>No course available</p>
+        <p>No course found</p>
     </div>
   </ng-template>
    
