@@ -1,90 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 @Component({
   selector: 'async-index-intro-courses',
   standalone: true,
   imports: [MatCardModule, MatButtonModule, RouterModule, NgOptimizedImage, MatIconModule, CommonModule],
-  styles: [`
-    section {
-      background: #eee;
-      display: flex;
-      flex-direction: row;
-      padding: 1em;
-      text-decoration: none;
-      color: black;
-      flex-wrap: wrap;
-
-      mat-card {
-        width: 20em;
-        margin: 1em 1em 0 0;
-        cursor: pointer;
-        flex-grow: 1;
-        flex-basis: 150px;
-          img {
-            width: auto;
-            height: 20em;
-          }
-          mat-card-content {
-            font-family: cursive;
-            font-size: 0.8em;
-            height: 10em;
-          }
-          mat-card-actions {
-
-            display: flex;
-            justify-content: space-evenly;
-            padding-right: 2em;
-            margin: 0;
-            padding: 0;
-
-            .price {
-              font-size: 0.7em;
-              .current {
-
-                font-family: "Open Sans", sans;
-                color: #00838F;
-              }
-              .divider {
-                color: #aaa;
-              }
-              .old {
-                color: #aaa;
-                text-decoration: line-through
-              }
-            }
-
-            .duration {
-              font-size: 0.7em;
-              .material-icons {
-                font-size: 0.9em;
-              }
-            }
-
-            .join {
-              span {
-                border: 1px solid #00838F;
-                border-radius: 50%;
-                color: #00838F;
-              }
-            }
-
-          }
-      }
-    }
-
-    .view-all-courses {
-      justify-content: center;
-    }
-
-  `],
+  styleUrls: ['intro-courses.light-theme.scss', 'intro-courses.dark-theme.scss'],
   template: `
-    <section>
+    <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
 
       <mat-card (click)="loadCourse()">
         <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
@@ -172,7 +102,7 @@ import { CommonModule } from '@angular/common';
 
     </section>
 
-    <section class="view-all-courses">
+    <section class="view-all-courses" [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <a mat-stroked-button routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">View All Courses
         <mat-icon>double_arrow</mat-icon>
       </a>
@@ -182,11 +112,35 @@ import { CommonModule } from '@angular/common';
 
   `
 })
-export class IntroCoursesComponent {
+export class IntroCoursesComponent implements OnInit, OnDestroy {
+  // init subscriptions list
+  subscriptions: Subscription[] = [];
+  isDarkMode: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private themeTogglerService: ThemeTogglerService
+    ) { }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in nav.', isDarkMode);
+      })
+    )
+  }
 
   loadCourse() {
     this.router.navigateByUrl('/courses/details');
+  }
+
+  ngOnDestroy() {
+    // unsubscribe list
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 }
