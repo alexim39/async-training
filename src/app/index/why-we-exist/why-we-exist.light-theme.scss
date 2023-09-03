@@ -1,0 +1,32 @@
+aside {
+    padding: 3em 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div {
+      margin: 0 1em 0 1em;
+      display: flex;
+      flex-direction: row;
+      span {
+        margin-left: 1em;
+        color: #AD1457;
+        font-family: Verdana;
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: inside;
+      }
+    }
+    h1 {
+      font-weight: bolder;
+      text-align: justify;
+      margin: 1em;
+    }
+    small {
+      text-align: justify;
+      margin: 0 1em;
+    }
+    button {
+      margin-top: 2em;
+    }
+  }
