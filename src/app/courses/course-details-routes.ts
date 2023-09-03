@@ -19,6 +19,7 @@ export const CoursesListRoutes: Routes = [
         component: CourseDetailsHomeComponent,
         title:"Course details - Course available for study"
       },
+      
     ]
   },
 

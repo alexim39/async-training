@@ -1,9 +1,12 @@
 .dark-mode {
     background-color: rgb(54, 56, 56);
     color: white;
+
+    a, mat-card  {
+        background-color: rgb(98, 98, 98);
+        color: white;
+    }
+        
 }
 
-/* .view-all-courses {
-    background-color: rgb(98, 98, 98);
-    color: white;
-} */
+

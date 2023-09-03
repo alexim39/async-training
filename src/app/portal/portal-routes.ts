@@ -4,6 +4,8 @@ import { CoursesListHomeComponent } from "../courses/courses-list.home.component
 import { PortalMainComponent } from "./portal.main.component";
 import { CourseDetailsHomeComponent } from "../courses/course-details/course-details.home.component";
 import { PortalCoursesListComponent } from "./course.component";
+import { MyCoursesComponent } from "../courses/my-courses/my-courses.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 export const PortalRoutes: Routes = [
 
@@ -30,10 +32,20 @@ export const PortalRoutes: Routes = [
             component: CourseDetailsHomeComponent,
             title:"Course details - Course available for study"
           },
+          {
+            path: 'my-courses',
+            component: MyCoursesComponent,
+            title:"My courses details - Course available for my study"
+          },
+          
         ]
       },
-      
-    ]
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        title:"Settings - Dashboard management area"
+      },
+    ],
   },
 
 ]

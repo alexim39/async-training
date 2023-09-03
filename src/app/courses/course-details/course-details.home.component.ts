@@ -25,15 +25,15 @@ import { CommonModule } from '@angular/common';
    <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse">
       <!-- show when viewing from outside portal -->
       <div class="breadcrumb" *ngIf="!isPortalView">
-          <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
-          <a routerLink="/courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
+          <a routerLink="/courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
           <span>{{course.title | titlecase}}</span>
       </div>
 
       <!-- show when viewing from inside portal -->
       <div class="breadcrumb" *ngIf="isPortalView">
-          <a routerLink="/portal" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
-          <a routerLink="/portal/courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
+          <a routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a> &gt;
+          <a routerLink="/portal/courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
           <span>{{course.title | titlecase}}</span>
       </div>
     </section>

@@ -19,15 +19,17 @@ import { AuthApiService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent } from '../_common/breadcrumb.component';
 import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
+import { LoadingSpinnerService } from '../_common/services/loader/spinner.service';
+import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
 
 
 @Component({
   selector: 'async-nav',
   standalone: true,
   providers: [AuthApiService],
-  imports: [MatToolbarModule, BreadcrumbComponent, MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
+  imports: [MatToolbarModule, BreadcrumbComponent, LoadingSpinnerComponent, MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
   template: `
-
+  <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
   <!-- THIS IS A TEMPORARY NOTIFICATION BANNER - FOR TRAILING TRAINING -->
   <async-notification-banner></async-notification-banner>
 
@@ -47,12 +49,15 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
     <!-- <mat-icon class="cart" (click)="addToCart()" >shopping_cart</mat-icon> -->
     <span matTooltip="Join Whatsapp group" (click)="lunchWhatsAppGroup()" class="fa fa-whatsapp"></span>
 
-    <i matTooltip="Togle light and dark mode" class="fa fa-moon-o" (click)="darkMode()" *ngIf="!isDarkMode"></i>
-    <i matTooltip="Togle light and dark mode" class="fa fa-sun-o" (click)="darkMode()" *ngIf="isDarkMode"></i>
+    
 
     <button class="view-on-desktop" mat-stroked-button (click)="openAuthComponent()" *ngIf="!authenticated">Login</button>
     <button class="view-on-desktop" mat-stroked-button (click)="signOut()" *ngIf="authenticated">Log out</button>
     <button class="view-on-desktop" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Get Started</button>
+
+    <!-- light and dark theme toggle -->
+    <i matTooltip="Toggle light to dark mode" class="fa fa-moon-o" (click)="darkMode()" *ngIf="!isDarkMode"></i>
+    <i matTooltip="Togle dark to light mode" class="fa fa-sun-o" (click)="darkMode()" *ngIf="isDarkMode"></i>
 
       <i class="fa fa-bars" (click)="toggleMobileNav()" id="toggle"></i>
 
@@ -81,90 +86,7 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
       <a mat-menu-item>Item 2</a>
     </mat-menu> -->
   `,
-  styles: [`
- 
-mat-toolbar {
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
-  top: 0;
-  z-index: 1000;
-
-  .logo {
-    padding-left: 2em;
-  }
-
-  .spacer {
-    flex: 1 1 auto;
-  }
-
-  a {
-    color: #00838F;
-  }
-
-  mat-icon {
-    cursor: pointer;
-    color: #28D146;
-  }
-
-  button {
-    margin-left: 2em;
-  }
-
-  .cart {
-    margin: 0 1em;
-    color: #00838F;
-  }
-
-  .fa-whatsapp {
-    color: #075E54;
-    font-size: 1.2em;
-    cursor:pointer;
-    margin-left: 1em;
-  }
-
-  .fa-moon-o,.fa-sun-o {
-    margin-left: 1em;
-  }
-
-}
-
-/* hide on mible */
-.mobile-nav {
-    display: none;
-}
-
-.fa-bars {
-    display: none;
-}
-
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  .logo {
-    padding-left: 0;
-    margin-left: -2em;
-  }
-
-  .mobile-nav {
-    display: flex;
-
-  }
-
-  .fa-bars {
-    display: block;
-  }
-
-  .fa-whatsapp {
-    margin: 0 1em;
-  }
-
-  .view-on-desktop {
-    display: none;
-  }
-}
-
-
-`]
+  styleUrls: [`nav.light-theme.scss`, `nav.dark-theme.scss`]
 })
 export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list
@@ -179,7 +101,8 @@ export class NavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private authAPI: AuthApiService,
     private router: Router,
-    private themeTogglerService: ThemeTogglerService
+    private themeTogglerService: ThemeTogglerService,
+    public loadingSpinnerService: LoadingSpinnerService
   ) { }
 
   ngOnInit() {
@@ -194,10 +117,12 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   signOut(): void {
+    this.loadingSpinnerService.show();
 
     this.subscriptions.push(
       this.authAPI.signOut({}).subscribe(res => {
         this.authenticated = false;
+        this.loadingSpinnerService.hide()
         // redirect to login page
         this.router.navigate(['/'])
       })
