@@ -5,13 +5,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
-import { CourseInterface } from '../../course.interface';
+import { CourseInterface } from '../../../course.interface';
 import { PaystackService } from 'src/app/_common/services/paystack.service';
 import { Subscription } from 'rxjs';
 import { Emitters } from 'src/app/_common/emitters/emitters';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from 'src/app/auth/auth.component';
 import { UserInterface, UserService } from 'src/app/_common/services/user.service';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 @Component({
   selector: 'async-banner-price',
@@ -20,48 +21,18 @@ import { UserInterface, UserService } from 'src/app/_common/services/user.servic
   imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
   template: `
 
-    <article class="price">
+    <article class="price" [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <p><span class="current">{{course.currentPrice | currency:"NGN":"&#8358;" }}</span> <span class="divider"> </span> <em *ngIf="removeOldPrice"> | </em> <span class="old" *ngIf="removeOldPrice"> {{course.oldPrice | currency:"NGN":"&#8358;" }}</span></p>
       <small [innerHTML]="course.panelMsg"></small>
 
       <hr>
 
-      <a mat-flat-button color="primary" (click)="initiatePayment()">Join Now</a>
-      <!-- <button *ngIf="!isAddedToCard" mat-stroked-button color="primary" (click)="gotoCart()">Go to Cart</button> -->
+      <a *ngIf="!isUserEnrolled" mat-flat-button color="primary" (click)="joinNow()">Join Now</a>
+      <a *ngIf="isUserEnrolled" mat-flat-button color="accent" (click)="initiatePayment()">Make Payment</a>
     </article>
 
   `,
-  styles: [`
-    .price {
-        background: none;
-        width: inherit;
-        text-align: center;
-        .current {
-          font-size: 1.5em;
-          font-weight: bold;
-          font-family: "Open Sans", sans;
-          color: #00838F;
-        }
-        .divider {
-          color: #aaa;
-        }
-        .old {
-          color: #aaa;
-          text-decoration: line-through
-        }
-        small {
-          font-size: 0.8em;
-          margin: 0 2em;
-          color: gray;
-        }
-        hr {
-          margin: 1em;
-        }
-        a {
-          width: 300px;
-        }
-      }
-  `]
+  styleUrls: [`banner.price.light-theme.scss`, `../banner.dark-theme.scss`]
 })
 export class BannerPriceComponent implements OnInit {
   //window.open('https://paystack.com/pay/async-training');
@@ -70,12 +41,15 @@ export class BannerPriceComponent implements OnInit {
   @Input() course!: CourseInterface
   removeOldPrice = true;
   user!: UserInterface;
-  
+  isDarkMode: boolean = false;
+  isUserEnrolled = false;
+
   constructor(
     private router: Router,
     private paystackService: PaystackService,
     public dialog: MatDialog,
     private userService: UserService,
+    private themeTogglerService: ThemeTogglerService
     ) { }
 
   ngOnInit(): void {
@@ -105,6 +79,15 @@ export class BannerPriceComponent implements OnInit {
       )
     )
 
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
+      })
+    )
+
   }
 
   initiatePayment(): void {
@@ -126,7 +109,13 @@ export class BannerPriceComponent implements OnInit {
          })
        )
     }
-   
+  }
+
+  joinNow(): void {
+    if(this.user) {
+      // user successfully joined
+
+    }
   }
 
   openAuthComponent() {

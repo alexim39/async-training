@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { PortalComponent } from "./portal.component";
-import { CoursesListHomeComponent } from "../courses/courses-list.home.component";
+import { CoursesListHomeComponent } from "../courses/courses-list-home/courses-list.home.component";
 import { PortalMainComponent } from "./portal.main.component";
 import { CourseDetailsHomeComponent } from "../courses/course-details/course-details.home.component";
 import { PortalCoursesListComponent } from "./course.component";
