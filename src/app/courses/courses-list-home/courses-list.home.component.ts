@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -8,9 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CourseService } from './course.service';
-import { CourseInterface } from './course.interface';
+import { CourseService } from '../course.service';
+import { CourseInterface } from '../course.interface';
 import { Subscription } from 'rxjs';
+import { LoadingSpinnerComponent } from '../../_common/spinner.compnent';
+import { LoadingSpinnerService } from '../../_common/services/loader/spinner.service';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 /**
  * @title Main component for course listing
@@ -19,130 +21,17 @@ import { Subscription } from 'rxjs';
   selector: 'async-courses-list-home',
   standalone: true,
   providers: [CourseService],
-  imports: [MatButtonModule, MatDividerModule, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
-  styles: [`
-  .courses-list {
-    background: #00838F;
-      article {
-        font-size: 4em;
-        text-align: center;
-        color: white;
-        font-family: "Open Sans", sans;
-        padding: 1em 0;
-      }
-  }
-
-  .search-box {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    padding: 2em 1em 0 1em;
-
-    mat-form-field {
-      width: 60%;
-    }
-  }
-
-  section {
-    display: flex;
-    flex-direction: row;
-    padding: 1em;
-    text-decoration: none;
-    color: black;
-    flex-wrap: wrap;
-
-    mat-card {
-      width: 20em;
-      margin: 1em 1em 0 0;
-      cursor: pointer;
-      flex-grow: 1;
-      flex-basis: 150px;
-        img {
-          width: auto;
-          height: 20em;
-        }
-        mat-card-content {
-          font-family: cursive;
-          font-size: 0.8em;
-          height: auto;
-          p {
-            line-height: 2;
-          }
-        }
-        mat-card-actions {
-
-          display: flex;
-          justify-content: space-evenly;
-          padding-right: 2em;
-          margin: 0;
-          padding: 0;
-
-          .price {
-            font-size: 0.7em;
-            .current {
-
-              font-family: "Open Sans", sans;
-              color: #00838F;
-            }
-            .divider {
-              color: #aaa;
-            }
-            .old {
-              color: #aaa;
-              text-decoration: line-through
-            }
-          }
-
-          .duration {
-            font-size: 0.7em;
-            .material-icons {
-              font-size: 0.9em;
-            }
-          }
-
-          .join {
-            span {
-              border: 1px solid #00838F;
-              border-radius: 50%;
-              color: #00838F;
-            }
-          }
-
-        }
-    }
-  }
-
-  .no-course-found {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5em;
-    color: orange;
-  }
-
-/* Extra small devices (phones, 768px and down) */
-@media only screen and (max-width: 768px) {
-  .courses-list {
-      article {
-        font-size: 1.5em;
-        padding: 0.5em 0;
-      }
-  }
-  .search-box {
-      mat-form-field {
-        width: 100%;
-      }
-    }
-}
-
-`],
+  imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
+  styleUrls: [`courses-list.light-theme.scss`, `courses-list.dark-theme.scss`],
   template: `
+  <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
+
 
     <div class="courses-list">
       <article>Courses List</article>
     </div>
 
-    <div class="search-box" *ngIf="isEmptyCourse">
+    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0" [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <mat-form-field appearance="outline">
         <mat-label>Search or filter courses</mat-label>
         <input matInput [(ngModel)]="filterCourse">
@@ -153,8 +42,8 @@ import { Subscription } from 'rxjs';
     </div>
 
   
-    <ng-template [ngIf]="isEmptyCourse" [ngIfElse]="noCourseFound">
-      <section>
+    <ng-template [ngIf]="filteredCourseList.length > 0">
+      <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
         <mat-card (click)="loadCourse(course._id)" *ngFor="let course of filteredCourseList; index as i;">
           <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
 
@@ -173,9 +62,9 @@ import { Subscription } from 'rxjs';
         </mat-card>
       </section>
   </ng-template>
-  <ng-template #noCourseFound>
-    <div class="no-course-found">
-        <p>No course available</p>
+  <ng-template [ngIf]="filteredCourseList.length == 0">
+    <div class="no-course-found" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+        <p>No course found</p>
     </div>
   </ng-template>
    
@@ -342,11 +231,15 @@ export class CoursesListHomeComponent implements OnInit {
   subscriptions: Subscription[] = [];
   filterCourse = '';
   courses!: Array<CourseInterface>;
-  isEmptyCourse = false;
+  //isEmptyCourse = true;
+  isDarkMode: boolean = false;
+
 
     constructor(
       private router: Router,
       private courseService: CourseService,
+      public loadingSpinnerService: LoadingSpinnerService,
+      private themeTogglerService: ThemeTogglerService
     ) { }
 
     get filteredCourseList(): CourseInterface[] {
@@ -354,13 +247,25 @@ export class CoursesListHomeComponent implements OnInit {
     }
 
     ngOnInit() {
+      this.loadingSpinnerService.show();
+      
       this.subscriptions.push(
         this.courseService.getCourses().subscribe(courses => {
           if (courses) {
             this.courses = courses;
-            this.isEmptyCourse = true;
-          }
+            //this.isEmptyCourse = false;
+            this.loadingSpinnerService.hide()
 
+          }
+        })
+      )
+
+      this.subscriptions.push(
+        // Subscribe to the action
+        this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+          // check theme toogle status
+          this.isDarkMode = isDarkMode;
+          //console.log('Action triggered in nav.', isDarkMode);
         })
       )
     }

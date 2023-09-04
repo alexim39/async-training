@@ -1,0 +1,113 @@
+.courses-list {
+    background: #00838F;
+      article {
+        font-size: 4em;
+        text-align: center;
+        color: white;
+        font-family: "Open Sans", sans;
+        padding: 1em 0;
+      }
+  }
+
+  .search-box {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 2em 1em 0 1em;
+
+    mat-form-field {
+      width: 60%;
+    }
+  }
+
+  section {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    text-decoration: none;
+    color: black;
+    flex-wrap: wrap;
+
+    mat-card {
+      width: 20em;
+      margin: 1em 1em 0 0;
+      cursor: pointer;
+      flex-grow: 1;
+      flex-basis: 150px;
+        img {
+          width: auto;
+          height: 20em;
+        }
+        mat-card-content {
+          font-family: cursive;
+          font-size: 0.8em;
+          height: auto;
+          p {
+            line-height: 2;
+          }
+        }
+        mat-card-actions {
+
+          display: flex;
+          justify-content: space-evenly;
+          padding-right: 2em;
+          margin: 0;
+          padding: 0;
+
+          .price {
+            font-size: 0.7em;
+            .current {
+
+              font-family: "Open Sans", sans;
+              color: #00838F;
+            }
+            .divider {
+              color: #aaa;
+            }
+            .old {
+              color: #aaa;
+              text-decoration: line-through
+            }
+          }
+
+          .duration {
+            font-size: 0.7em;
+            .material-icons {
+              font-size: 0.9em;
+            }
+          }
+
+          .join {
+            span {
+              border: 1px solid #00838F;
+              border-radius: 50%;
+              color: #00838F;
+            }
+          }
+
+        }
+    }
+  }
+
+  .no-course-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: orange;
+  }
+
+/* Extra small devices (phones, 768px and down) */
+@media only screen and (max-width: 768px) {
+  .courses-list {
+      article {
+        font-size: 1.5em;
+        padding: 0.5em 0;
+      }
+  }
+  .search-box {
+      mat-form-field {
+        width: 100%;
+      }
+    }
+}

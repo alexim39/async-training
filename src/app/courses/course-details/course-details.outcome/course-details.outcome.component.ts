@@ -4,37 +4,36 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BannerPriceComponent } from './banner-price/banner.price.component';
-import { BannerProgramComponent } from './banner-program/banner.program.component';
-import { BannerMediaComponent } from './banner-media/banner.media.component';
 import { CourseInterface } from '../../course.interface';
 import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
-  selector: 'async-course-details-banner',
+  selector: 'async-course-details-outcomes',
   standalone: true,
-  imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent, BannerMediaComponent],
+  imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
   template: `
    <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
-    <async-banner-media [course]="course"></async-banner-media>
-    <async-banner-price [course]="course"></async-banner-price>
-    <async-banner-program [course]="course"></async-banner-program>
+    <article>
+        <h3>Key Learning Outcomes</h3>
+
+        <p [innerHTML]="course.keyLearningOutcome"></p>
+      </article>
    </section>
   `,
-  styleUrls: [`banner.light-theme.scss`, `banner.dark-theme.scss`]
+  styleUrls: [`course-details.outcome.light-theme.scss`, `course-details.outcome.dark-theme.scss`]
 })
-export class CourseDetailsBannerComponent implements OnInit, OnDestroy {
+export class CourseDetailsOutcomesComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface
-  //isEmptyCourse = false;
+  subscriptions: Array<Subscription> = [];
   isDarkMode: boolean = false;
-  subscriptions: Subscription[] = [];
+
 
   constructor(
-    private themeTogglerService: ThemeTogglerService
-  ) {  }
-
+    private themeTogglerService: ThemeTogglerService,
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -42,12 +41,12 @@ export class CourseDetailsBannerComponent implements OnInit, OnDestroy {
       this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
         // check theme toogle status
         this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
+        //console.log('Action triggered in nav.', isDarkMode);
       })
     )
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     // unsubscribe list
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();

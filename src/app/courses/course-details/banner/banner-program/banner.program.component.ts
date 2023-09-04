@@ -1,19 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BannerPriceComponent } from './banner.price.component';
-import { CourseInterface } from '../../course.interface';
+import { BannerPriceComponent } from '../banner-price/banner.price.component';
+import { CourseInterface } from '../../../course.interface';
 import { CommonModule } from '@angular/common';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'async-banner-program',
   standalone: true,
   imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent],
   template: `
-   <article>
+   <article [ngClass]="isDarkMode ? 'dark-mode' : ''">
 
     <section>
       <mat-icon>calendar_today</mat-icon>
@@ -49,52 +51,32 @@ import { CommonModule } from '@angular/common';
 
    </article>
   `,
-  styles: [`
-    article {
-      width: inherit;
-      height: 10em;
-      display: flex;
-      flex-direction: column;
-      section {
-        display: flex;
-        flex-direction: row;
-        margin: 1.2em;
-        mat-icon {
-          border-radius: 50%;
-          border: 1px solid #00838F;
-          padding: 0.5em;
-          margin-right: 0.8em;
-          color: #00838F;
-        }
-        div {
-          display: flex;
-          flex-direction: column;
-          span {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 1.5em;
-
-          }
-          small {
-            font-size: 0.8em;
-            margin-top: 0.6em;
-            font-family: 'Trebuchet MS', sans-serif;
-            color: #00838F;
-            font-weight: bold;
-            .start-date {
-              color: #EF6C00;
-              font-family: sans-serif;
-              font-size: 1em;
-            }
-          }
-        }
-      }
-    }
-  `]
+  styleUrls: [`banner.program.light-theme.scss`, `banner.program.dark-theme.scss`]
 })
-export class BannerProgramComponent implements OnInit {
+export class BannerProgramComponent implements OnInit, OnDestroy{
   @Input() course!: CourseInterface
+  isDarkMode: boolean = false;
+  subscriptions: Subscription[] = [];
+
+  constructor(
+    private themeTogglerService: ThemeTogglerService
+  ) {  }
 
   ngOnInit(): void {
-    //console.log('course ',this.course)
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
+      })
+    )
+  }
+
+  ngOnDestroy() {
+    // unsubscribe list
+    this.subscriptions.forEach(subscription => {
+      subscription.unsubscribe();
+    });
   }
 }

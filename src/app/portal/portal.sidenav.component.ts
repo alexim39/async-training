@@ -22,30 +22,30 @@ import {MatChipsModule} from '@angular/material/chips';
           {{ this.user.firstname | titlecase }}
         </h3>
         <p>{{ this.user.email | lowercase }}</p>
-        <mat-chip-listbox aria-label="Fish selection">
-          <mat-chip-option>Active</mat-chip-option>
+        <mat-chip-listbox>
+          <mat-chip-option>{{user.status ? 'Active' : 'Pending'}}</mat-chip-option>
         </mat-chip-listbox>
       </div>
 
        <ul>
             <li>
-                <a routerLink="/portal" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <span class="icon"><mat-icon>home</mat-icon></span>
                     <span class="item">Dashboard</span>
                 </a>
             </li>
             <li>
-                <a mat-button routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+                <a routerLink="courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <span class="icon"><mat-icon>event_note</mat-icon></span>
                     <span class="item">All Courses</span>
                 </a>
-                <a href="#">
+                <a routerLink="/portal/courses/my-courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <span class="icon"><mat-icon>bookmark_added</mat-icon></span>
                     <span class="item">My Courses</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a routerLink="settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <span class="icon"><mat-icon>settings</mat-icon></span>
                     <span class="item">Settings</span>
                 </a>
@@ -111,18 +111,22 @@ import {MatChipsModule} from '@angular/material/chips';
             font-family: 'Material Icons' !important;
             margin-right: 10px;
           }
-
-          &:hover,
-          .active {
+          &:hover {
             color: #0c7db1;
             background: white;
             border-right: 2px solid rgb(5, 68, 104);
           }
+          
           &:hover:before,
           &.active:before {
             display: block;
           }
         }
+        .active {
+            color: #e6e1e1;
+            font-size: 0.7em;
+            border-right: 7px solid #ffab40;
+          }
       }
     }
 }
@@ -132,6 +136,6 @@ export class PortalSidenavComponent implements OnInit {
   @Input() user!: UserInterface;
 
   ngOnInit(): void {
-    //console.log(this.user);
+    console.log(this.user);
   }
 }

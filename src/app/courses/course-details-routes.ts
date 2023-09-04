@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { CoursesListComponent } from "./courses-list.component";
-import { CoursesListHomeComponent } from "./courses-list.home.component";
+import { CoursesListHomeComponent } from "./courses-list-home/courses-list.home.component";
 import { CourseDetailsHomeComponent } from "./course-details/course-details.home.component";
 
 export const CoursesListRoutes: Routes = [
@@ -19,6 +19,7 @@ export const CoursesListRoutes: Routes = [
         component: CourseDetailsHomeComponent,
         title:"Course details - Course available for study"
       },
+      
     ]
   },
 

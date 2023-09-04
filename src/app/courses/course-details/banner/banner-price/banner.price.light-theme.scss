@@ -1,0 +1,29 @@
+.price {
+    background: none;
+    width: inherit;
+    text-align: center;
+    .current {
+      font-size: 1.5em;
+      font-weight: bold;
+      font-family: "Open Sans", sans;
+      color: #00838F;
+    }
+    .divider {
+      color: #aaa;
+    }
+    .old {
+      color: #aaa;
+      text-decoration: line-through
+    }
+    small {
+      font-size: 0.8em;
+      margin: 0 2em;
+      color: gray;
+    }
+    hr {
+      margin: 1em;
+    }
+    a {
+      width: 300px;
+    }
+  }
