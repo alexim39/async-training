@@ -49,5 +49,12 @@ export class CourseService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  /* // get all user registered course
+  getMyCourse(id: string): Observable<CourseInterface[]> {
+    return this.http
+      .get<Array<CourseInterface>>(this.apiURL + `/courses/${id}`, { withCredentials: true })
+      .pipe(retry(1), catchError(this.handleError));
+  } */
+
  
 }

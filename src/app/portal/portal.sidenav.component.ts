@@ -22,8 +22,8 @@ import {MatChipsModule} from '@angular/material/chips';
           {{ this.user.firstname | titlecase }}
         </h3>
         <p>{{ this.user.email | lowercase }}</p>
-        <mat-chip-listbox aria-label="Fish selection">
-          <mat-chip-option>Active</mat-chip-option>
+        <mat-chip-listbox>
+          <mat-chip-option>{{user.status ? 'Active' : 'Pending'}}</mat-chip-option>
         </mat-chip-listbox>
       </div>
 
@@ -136,6 +136,6 @@ export class PortalSidenavComponent implements OnInit {
   @Input() user!: UserInterface;
 
   ngOnInit(): void {
-    //console.log(this.user);
+    console.log(this.user);
   }
 }

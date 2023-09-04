@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -22,7 +21,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
   selector: 'async-courses-list-home',
   standalone: true,
   providers: [CourseService],
-  imports: [MatButtonModule, LoadingSpinnerComponent, MatDividerModule, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
+  imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
   styleUrls: [`courses-list.light-theme.scss`, `courses-list.dark-theme.scss`],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>

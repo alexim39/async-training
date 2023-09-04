@@ -13,13 +13,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from 'src/app/auth/auth.component';
 import { UserInterface, UserService } from 'src/app/_common/services/user.service';
 import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
+import Swal from 'sweetalert2';
+import { LoadingSpinnerService } from 'src/app/_common/services/loader/spinner.service';
+import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
 
 @Component({
   selector: 'async-banner-price',
   standalone: true,
   providers: [PaystackService, UserService],
-  imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
+  imports: [MatToolbarModule, RouterModule, LoadingSpinnerComponent, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
   template: `
+  <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
     <article class="price" [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <p><span class="current">{{course.currentPrice | currency:"NGN":"&#8358;" }}</span> <span class="divider"> </span> <em *ngIf="removeOldPrice"> | </em> <span class="old" *ngIf="removeOldPrice"> {{course.oldPrice | currency:"NGN":"&#8358;" }}</span></p>
@@ -43,27 +47,23 @@ export class BannerPriceComponent implements OnInit {
   user!: UserInterface;
   isDarkMode: boolean = false;
   isUserEnrolled = false;
+  currentRouteCourseId = ''
 
   constructor(
     private router: Router,
     private paystackService: PaystackService,
     public dialog: MatDialog,
     private userService: UserService,
-    private themeTogglerService: ThemeTogglerService
+    private themeTogglerService: ThemeTogglerService,
+    public loadingSpinnerService: LoadingSpinnerService,
     ) { }
 
   ngOnInit(): void {
     if (this.course.currentPrice == this.course.oldPrice) this.removeOldPrice = false
 
-   /*  // listern to auth event emitter to check if user is signed in or not
-    this.subscriptions.push(
-      Emitters.authEmitter.subscribe(
-        (auth: boolean) => {
-          this.authenticated = auth;
-          console.log('aut ',this.authenticated)
-        }
-      )
-    ) */
+   // check current route of user
+   const parts = this.router.url.split('/');
+   this.currentRouteCourseId = parts[parts.length - 1]; // This will print "64f1a27ce709366c3d55e247"
 
     this.subscriptions.push(
       this.userService.getUser().subscribe(
@@ -71,6 +71,13 @@ export class BannerPriceComponent implements OnInit {
           this.user = res as UserInterface
           //Emitters.authEmitter.emit(true);
           this.authenticated = true;
+
+          // check if user have already registered for this course
+          res.courses.forEach((course: CourseInterface) => {
+            if(course._id === this.currentRouteCourseId) {
+              this.isUserEnrolled = true;
+            }
+          })
         },
         error => {
           //Emitters.authEmitter.emit(false);
@@ -112,10 +119,62 @@ export class BannerPriceComponent implements OnInit {
   }
 
   joinNow(): void {
-    if(this.user) {
-      // user successfully joined
+    this.loadingSpinnerService.show();
 
+    // check if authenticated
+    if (!this.authenticated) {
+      this.openAuthComponent();
+      this.loadingSpinnerService.hide()
+    } else {
+
+      if(this.user && this.currentRouteCourseId.length === 24) {
+        // user successfully joined
+  
+        this.subscriptions.push(
+          this.userService.registerCourse(this.currentRouteCourseId).subscribe(
+            res => {
+              //console.log('=== ',res)
+              Swal.fire({
+                position: 'bottom',
+                icon: 'success',
+                text: 'Course have been registered successully go ahead to make payment',
+                showConfirmButton: true,
+                confirmButtonText: 'Make Payment',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // show payment
+                  this.initiatePayment();
+                } 
+              })
+             /*  Swal.fire({
+                position: 'bottom',
+                icon: 'success',
+                text: 'Course have been registered successully, go ahead to make payment',
+                showConfirmButton: false,
+                timer: 4000
+              }); */
+              this.isUserEnrolled = true;
+              this.loadingSpinnerService.hide()
+            },
+            error => {
+              //console.log(error)
+              if (error) {// user not found
+                Swal.fire({
+                  position: 'bottom',
+                  icon: 'info',
+                  text: 'Error occured and course was not registered',
+                  showConfirmButton: false,
+                  timer: 4000
+                });
+              }
+              this.loadingSpinnerService.hide()
+            }
+          )
+        )
+  
+      }       
     }
+
   }
 
   openAuthComponent() {

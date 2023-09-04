@@ -41,8 +41,9 @@ import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
 
     <span class="spacer"></span>
 
-    <a class="view-on-desktop" mat-button routerLink="about-async-training" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">About Us</a>
-    <a class="view-on-desktop" mat-button routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Courses</a>
+    <a class="view-on-desktop" mat-button routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="authenticated">Dashboard</a>
+    <a class="view-on-desktop" mat-button routerLink="about-async-training" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About Us</a>
+    <a class="view-on-desktop" mat-button routerLink="courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Courses</a>
 
     <!-- <a mat-button [matMenuTriggerFor]="menu">Course<span class="material-icons">expand_more</span> </a> -->
 
@@ -53,7 +54,7 @@ import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
 
     <button class="view-on-desktop" mat-stroked-button (click)="openAuthComponent()" *ngIf="!authenticated">Login</button>
     <button class="view-on-desktop" mat-stroked-button (click)="signOut()" *ngIf="authenticated">Log out</button>
-    <button class="view-on-desktop" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Get Started</button>
+    <button class="view-on-desktop" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Get Started</button>
 
     <!-- light and dark theme toggle -->
     <i matTooltip="Toggle light to dark mode" class="fa fa-moon-o" (click)="darkMode()" *ngIf="!isDarkMode"></i>

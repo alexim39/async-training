@@ -7,22 +7,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CourseDetailsIntroComponent } from './course-details.intro.component';
-import { CourseDetailsAboutComponent } from './course-details.about.component';
+import { CourseDetailsAboutComponent } from './course-details.about/course-details.about.component';
 import { CourseDetailsBannerComponent } from './banner/banner.component';
-import { CourseDetailsOutcomesComponent } from './course-details.outcome.component';
+import { CourseDetailsOutcomesComponent } from './course-details.outcome/course-details.outcome.component';
 import { Subscription } from 'rxjs';
 import { CourseInterface } from '../course.interface';
 import { CourseService } from '../course.service';
 import { CommonModule } from '@angular/common';
-
+import { LoadingSpinnerComponent } from '../../_common/spinner.compnent';
+import { LoadingSpinnerService } from '../../_common/services/loader/spinner.service';
+import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 @Component({
   selector: 'async-course-details-home',
   standalone: true,
   providers: [CourseService],
-  imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
+  imports: [MatToolbarModule, CommonModule, LoadingSpinnerComponent, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
   template: `
-   <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse">
+  <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
+   <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse" [ngClass]="isDarkMode ? 'dark-mode' : ''">
       <!-- show when viewing from outside portal -->
       <div class="breadcrumb" *ngIf="!isPortalView">
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
@@ -31,7 +34,7 @@ import { CommonModule } from '@angular/common';
       </div>
 
       <!-- show when viewing from inside portal -->
-      <div class="breadcrumb" *ngIf="isPortalView">
+      <div class="breadcrumb" *ngIf="isPortalView" [ngClass]="isDarkMode ? 'dark-mode' : ''">
           <a routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a> &gt;
           <a routerLink="/portal/courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
           <span>{{course.title | titlecase}}</span>
@@ -43,8 +46,7 @@ import { CommonModule } from '@angular/common';
     <async-course-details-about id="about" [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
     <async-course-details-outcomes id="outcomes" [course]="course" *ngIf="isEmptyCourse"></async-course-details-outcomes>
   `,
-  styles: [`
-  `]
+  styleUrls: [`../my-courses/my-courses.dark-theme.scss`]
 })
 export class CourseDetailsHomeComponent implements OnInit, OnDestroy { 
   subscriptions: Subscription[] = [];
@@ -52,15 +54,18 @@ export class CourseDetailsHomeComponent implements OnInit, OnDestroy {
   course!: CourseInterface;
   isEmptyCourse = false;
   isPortalView = false;
-
+  isDarkMode: boolean = false;
 
   constructor(
     private router: Router,
     public activatedRoute: ActivatedRoute,
-    private courseService: CourseService
-    ) {}
+    private courseService: CourseService,
+    public loadingSpinnerService: LoadingSpinnerService,
+    private themeTogglerService: ThemeTogglerService
+  ) {}
 
   ngOnInit(): void {
+    this.loadingSpinnerService.show();
     if (this.router.url.includes('portal')) {
       // portal course view
       this.isPortalView = true;
@@ -76,11 +81,21 @@ export class CourseDetailsHomeComponent implements OnInit, OnDestroy {
             if (course) {
               this.course = course;
               this.isEmptyCourse = true;
+              this.loadingSpinnerService.hide()
             }
           })
         }
       })
     );
+
+    this.subscriptions.push(
+      // Subscribe to the action
+      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
+        // check theme toogle status
+        this.isDarkMode = isDarkMode;
+        //console.log('Action triggered in nav.', isDarkMode);
+      })
+    )
  
   }
 

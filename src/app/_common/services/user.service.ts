@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { CourseInterface } from 'src/app/courses/course.interface';
 
 export interface UserInterface {
   email: string;
   firstname: string;
   lastname: string;
   id: string;
+  courses?: Array<CourseInterface> | Array<string> | any;
+  status: boolean;
 }
 
 @Injectable()
@@ -48,5 +51,12 @@ export class UserService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+
+  // user course registration
+  registerCourse(courseId: string): Observable<any> {
+    return this.http
+      .put<any>(this.apiURL + '/users/register-course', {courseId: courseId}, { withCredentials: true })
+      .pipe(retry(1), catchError(this.handleError));
+  }
 
 }
