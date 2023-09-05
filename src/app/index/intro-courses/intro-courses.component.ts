@@ -6,15 +6,14 @@ import { NgOptimizedImage } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 @Component({
   selector: 'async-index-intro-courses',
   standalone: true,
   imports: [MatCardModule, MatButtonModule, RouterModule, NgOptimizedImage, MatIconModule, CommonModule],
-  styleUrls: ['intro-courses.light-theme.scss', 'intro-courses.dark-theme.scss'],
+  styleUrls: ['intro-courses.component.scss'],
   template: `
-    <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <section id="intro-course">
 
       <mat-card (click)="loadCourse()">
         <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
@@ -102,8 +101,8 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
 
     </section>
 
-    <section class="view-all-courses" [ngClass]="isDarkMode ? 'dark-mode' : ''">
-      <a mat-stroked-button routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">View All Courses
+    <section id="view-all-courses">
+      <a class="view-all" mat-stroked-button routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">View All Courses
         <mat-icon>double_arrow</mat-icon>
       </a>
     </section>
@@ -115,22 +114,13 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
 export class IntroCoursesComponent implements OnInit, OnDestroy {
   // init subscriptions list
   subscriptions: Subscription[] = [];
-  isDarkMode: boolean = false;
 
   constructor(
     private router: Router,
-    private themeTogglerService: ThemeTogglerService
     ) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
+   
   }
 
   loadCourse() {

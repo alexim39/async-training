@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from '../../auth/auth.component';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +14,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterModule, MatIconModule, MatButtonModule,  MatFormFieldModule, MatInputModule, CommonModule],
   template: `
-    <aside [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <aside class="why-we-exist">
       <div>
         <span>Book Your Slot for Remote Coaching</span>
         <span>We Help You Climb Your Career Ladder Like A Pro</span>
@@ -30,28 +29,17 @@ import { CommonModule } from '@angular/common';
       <button (click)="openAuthComponent()" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">JOIN NOW</button>
     </aside>
   `,
-  styleUrls: ['why-we-exist.light-theme.scss', 'why-we-exist.dark-theme.scss'],
+  styleUrls: ['why-we-exist.component.scss'],
 })
 export class WhyWeExistComponent implements OnInit{
   // init subscriptions list
   subscriptions: Subscription[] = [];
-  isDarkMode: boolean = false;
 
   constructor(
     public dialog: MatDialog,
-    private themeTogglerService: ThemeTogglerService
   ) { }
 
-  ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
-      })
-    )
-  }
+  ngOnInit(): void {  }
 
 
   openAuthComponent() {

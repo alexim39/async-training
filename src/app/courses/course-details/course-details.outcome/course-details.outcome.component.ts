@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CourseInterface } from '../../course.interface';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +14,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatToolbarModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
   template: `
-   <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <section class="course-details-outcome">
     <article>
         <h3>Key Learning Outcomes</h3>
 
@@ -23,27 +22,17 @@ import { CommonModule } from '@angular/common';
       </article>
    </section>
   `,
-  styleUrls: [`course-details.outcome.light-theme.scss`, `course-details.outcome.dark-theme.scss`]
+  styleUrls: [`course-details.outcome.component.scss`]
 })
 export class CourseDetailsOutcomesComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface
   subscriptions: Array<Subscription> = [];
-  isDarkMode: boolean = false;
 
 
-  constructor(
-    private themeTogglerService: ThemeTogglerService,
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
+  
   }
 
   ngOnDestroy(): void {

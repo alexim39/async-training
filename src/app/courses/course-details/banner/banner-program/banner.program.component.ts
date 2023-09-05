@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [MatToolbarModule, CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent],
   template: `
-   <article [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <article class="banner-program">
 
     <section>
       <mat-icon>calendar_today</mat-icon>
@@ -51,27 +51,16 @@ import { Subscription } from 'rxjs';
 
    </article>
   `,
-  styleUrls: [`banner.program.light-theme.scss`, `banner.program.dark-theme.scss`]
+  styleUrls: [`banner.program.component.scss`]
 })
 export class BannerProgramComponent implements OnInit, OnDestroy{
   @Input() course!: CourseInterface
-  isDarkMode: boolean = false;
   subscriptions: Subscription[] = [];
 
   constructor(
-    private themeTogglerService: ThemeTogglerService
   ) {  }
 
-  ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
-      })
-    )
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
     // unsubscribe list

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
 import { CourseInterface } from '../course.interface';
@@ -26,7 +25,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
   imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
   template: `
   <!-- show when viewing from inside portal -->
-  <section class="breadcrumb-wrapper" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+  <section class="breadcrumb-wrapper">
     <div class="breadcrumb">
         <a routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a> &gt;
         <a routerLink="/portal/courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
@@ -34,14 +33,14 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
     </div>
   </section>
 
-    <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <section>
     <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
     <div class="courses-list">
       <article>Registered Courses</article>
     </div>
 
-    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0">
       <mat-form-field appearance="outline">
         <mat-label>Search or filter courses</mat-label>
         <input matInput [(ngModel)]="filterCourse">
@@ -53,7 +52,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
 
   
     <ng-template [ngIf]="filteredCourseList.length > 0">
-      <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+      <section id="intro-course">
         <mat-card *ngFor="let course of filteredCourseList; index as i;">
           <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
 
@@ -73,7 +72,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
       </section>
   </ng-template>
   <ng-template [ngIf]="filteredCourseList.length == 0">
-    <div class="no-course-found" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <div class="no-course-found">
         <p>No course found</p>
     </div>
   </ng-template>
@@ -81,11 +80,10 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
 
     </section>
   `,
-  styleUrls: [`my-courses.light-theme.scss`, `my-courses.dark-theme.scss`]
+  styleUrls: [`my-courses.component.scss`]
 })
 export class MyCoursesComponent implements OnInit, OnDestroy {
   subscriptions: Array<Subscription> = [];
-  isDarkMode: boolean = false;
   filterCourse = '';
   courses!: Array<CourseInterface>;
   user!: UserInterface;
@@ -94,7 +92,6 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     public loadingSpinnerService: LoadingSpinnerService,
-    private themeTogglerService: ThemeTogglerService,
     private userService: UserService,
   ) { }
 
@@ -121,16 +118,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       )
     )
       
-    
 
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
   }
 
   ngOnDestroy(): void {

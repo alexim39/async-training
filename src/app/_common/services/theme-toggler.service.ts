@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeTogglerService {
-  // Create a Subject for communication
-  private toggleActionSubject = new Subject<boolean>();
 
-  // Observable to listen for actions
-  toggleAction$ = this.toggleActionSubject.asObservable();
+  private readonly THEME_KEY = 'selectedTheme';
 
-  // Method to trigger an action
-  triggerToggleAction(themeModeStatus: boolean) {
-    this.toggleActionSubject.next(themeModeStatus);
+  setTheme(theme: 'dark' | 'light') {
+    localStorage.setItem(this.THEME_KEY, theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+
+  getTheme(): 'dark' | 'light' {
+    return (
+      (localStorage.getItem(this.THEME_KEY) as 'dark' | 'light') || 'light'
+    );
   }
 }

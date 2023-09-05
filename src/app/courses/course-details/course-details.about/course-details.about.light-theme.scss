@@ -1,11 +1,10 @@
 
-section {
-    background: #EEEEEE;
+.course-detail-about {
     article {
       width: 60em;
       padding: 2em 0 2em 8em;
       h3 {
-        color: #006064;
+        color: #ffab40;
       }
       p {
         text-align: justify;
@@ -19,7 +18,7 @@ section {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-section {
+.course-detail-about {
   article {
     width: 100%;
     padding: 1em;
@@ -32,7 +31,7 @@ section {
 
 /* iPads/tablet (portrait and landscape) */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {
-section {
+.course-detail-about {
   article {
     width: 100%;
     padding: 1em;
@@ -45,7 +44,7 @@ section {
 
 /* Desktops and laptops  (Laptop and desktop, 1025px and up ) */
 @media only screen and (min-device-width: 1025px)  {
-section {
+.course-detail-about {
   article {
     width: 50em;
   }
@@ -54,7 +53,7 @@ section {
 
 /* Large screens -*/
 @media only screen and (min-width: 1824px) {
-section {
+.course-detail-about {
   article {
     width: 70em;
   }

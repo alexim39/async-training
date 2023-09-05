@@ -22,7 +22,6 @@ import { RouterModule } from '@angular/router';
 
 .page_404{ 
     padding:40px 0; 
-    background:#fff; 
     font-family: 'Arvo', serif;
     display: flex;
     flex-direction: column;

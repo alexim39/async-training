@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthComponent } from '../../auth/auth.component';
 import { Subscription } from 'rxjs';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -35,7 +34,7 @@ import { CommonModule } from '@angular/common';
             </h3>
 
             <div class="btn">
-              <a (click)="openAuthComponent()" mat-raised-button [ngClass]="isDarkMode ? 'dark-mode' : ''">GET ACCOUNT</a>
+              <a id="get-account" (click)="openAuthComponent()" mat-raised-button>GET ACCOUNT</a>
               <a mat-raised-button color="accent" routerLink="courses">VIEW COURSES</a>
             </div>
           </article>
@@ -44,18 +43,16 @@ import { CommonModule } from '@angular/common';
       </header>
     </section>
   `,
-  styleUrls: [`banner.light-theme.scss`, `banner.dark-theme.scss`],
+  styleUrls: [`banner.component.scss`],
 })
 export class BannerComponent implements OnInit, OnDestroy  {
   subscriptions: Subscription[] = [];
-  isDarkMode: boolean = false;
 
   posterSource: string = 'assets/img/bck1.png';
   videoSource: string = 'assets/vid/bck1.mp4';
 
   constructor(
     public dialog: MatDialog,
-    private themeTogglerService: ThemeTogglerService
   ) {}
 
   openAuthComponent() {
@@ -63,14 +60,6 @@ export class BannerComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
 }
 
   ngOnDestroy(): void {

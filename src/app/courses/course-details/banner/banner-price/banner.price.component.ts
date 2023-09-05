@@ -25,7 +25,7 @@ import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
-    <article class="price" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <article class="banner-price">
       <p><span class="current">{{course.currentPrice | currency:"NGN":"&#8358;" }}</span> <span class="divider"> </span> <em *ngIf="removeOldPrice"> | </em> <span class="old" *ngIf="removeOldPrice"> {{course.oldPrice | currency:"NGN":"&#8358;" }}</span></p>
       <small [innerHTML]="course.panelMsg"></small>
 
@@ -36,7 +36,7 @@ import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
     </article>
 
   `,
-  styleUrls: [`banner.price.light-theme.scss`, `../banner.dark-theme.scss`]
+  styleUrls: [`banner.price.component.scss`]
 })
 export class BannerPriceComponent implements OnInit {
   //window.open('https://paystack.com/pay/async-training');
@@ -45,7 +45,6 @@ export class BannerPriceComponent implements OnInit {
   @Input() course!: CourseInterface
   removeOldPrice = true;
   user!: UserInterface;
-  isDarkMode: boolean = false;
   isUserEnrolled = false;
   currentRouteCourseId = ''
 
@@ -54,7 +53,6 @@ export class BannerPriceComponent implements OnInit {
     private paystackService: PaystackService,
     public dialog: MatDialog,
     private userService: UserService,
-    private themeTogglerService: ThemeTogglerService,
     public loadingSpinnerService: LoadingSpinnerService,
     ) { }
 
@@ -84,15 +82,6 @@ export class BannerPriceComponent implements OnInit {
           this.authenticated = false;
         }
       )
-    )
-
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
-      })
     )
 
   }
