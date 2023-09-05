@@ -87,7 +87,7 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
       <a mat-menu-item>Item 2</a>
     </mat-menu> -->
   `,
-  styleUrls: [`nav.light-theme.scss`]
+  styleUrls: [`nav.component.scss`]
 })
 export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list

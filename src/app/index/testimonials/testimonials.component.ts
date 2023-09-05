@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'async-index-testimonials',
   standalone: true,
-  styleUrls: ['testimonials.light-theme.scss'],
+  styleUrls: ['testimonials.component.scss'],
   imports: [MatButtonModule, MatDividerModule, MatIconModule, CommonModule],
   template: `
     <article class="testimonial">

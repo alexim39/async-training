@@ -109,6 +109,11 @@ body {
     .breadcrumb-wrapper, .breadcrumb {
         background-color: var(--background-color);
         color: var(--text-color);
+        
+    }
+
+    .breadcrumb-wrapper {
+        border-top: 1px solid var(--intro-course-background);
     }
 
     .course-detail-about {
@@ -130,6 +135,14 @@ body {
     .banner, .banner-media, .banner-price, .banner-program {
         background-color: var(--background-color);
         color: var(--text-color); 
+    }
+
+    .page_404 {
+        background-color: var(--background-color);
+        color: var(--text-color);
+         p{
+            color: var(--text-color);
+         }
     }
 }
 

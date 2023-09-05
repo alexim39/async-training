@@ -6,24 +6,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from './banner-price/banner.price.component';
 import { BannerProgramComponent } from './banner-program/banner.program.component';
-import { BannerMediaComponent } from './banner-media/banner.media.component';
 import { CourseInterface } from '../../course.interface';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'async-course-details-banner',
   standalone: true,
-  imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent, BannerMediaComponent],
+  imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent],
   template: `
    <section class="banner">
-    <async-banner-media [course]="course"></async-banner-media>
     <async-banner-price [course]="course"></async-banner-price>
     <async-banner-program [course]="course"></async-banner-program>
    </section>
   `,
-  styleUrls: [`banner.light-theme.scss`]
+  styleUrls: [`banner.component.scss`]
 })
 export class CourseDetailsBannerComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface

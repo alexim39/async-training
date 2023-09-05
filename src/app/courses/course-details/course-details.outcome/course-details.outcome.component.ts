@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
       </article>
    </section>
   `,
-  styleUrls: [`course-details.outcome.light-theme.scss`]
+  styleUrls: [`course-details.outcome.component.scss`]
 })
 export class CourseDetailsOutcomesComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface

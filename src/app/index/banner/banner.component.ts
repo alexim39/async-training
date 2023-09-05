@@ -43,7 +43,7 @@ import { CommonModule } from '@angular/common';
       </header>
     </section>
   `,
-  styleUrls: [`banner.light-theme.scss`],
+  styleUrls: [`banner.component.scss`],
 })
 export class BannerComponent implements OnInit, OnDestroy  {
   subscriptions: Subscription[] = [];

@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
       <button (click)="openAuthComponent()" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">JOIN NOW</button>
     </aside>
   `,
-  styleUrls: ['why-we-exist.light-theme.scss'],
+  styleUrls: ['why-we-exist.component.scss'],
 })
 export class WhyWeExistComponent implements OnInit{
   // init subscriptions list

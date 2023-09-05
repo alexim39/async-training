@@ -36,7 +36,7 @@ import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
     </article>
 
   `,
-  styleUrls: [`banner.price.light-theme.scss`]
+  styleUrls: [`banner.price.component.scss`]
 })
 export class BannerPriceComponent implements OnInit {
   //window.open('https://paystack.com/pay/async-training');

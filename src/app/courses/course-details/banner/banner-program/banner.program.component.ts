@@ -51,7 +51,7 @@ import { Subscription } from 'rxjs';
 
    </article>
   `,
-  styleUrls: [`banner.program.light-theme.scss`]
+  styleUrls: [`banner.program.component.scss`]
 })
 export class BannerProgramComponent implements OnInit, OnDestroy{
   @Input() course!: CourseInterface

@@ -16,7 +16,6 @@ import { CourseService } from '../course.service';
 import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from '../../_common/spinner.compnent';
 import { LoadingSpinnerService } from '../../_common/services/loader/spinner.service';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 @Component({
   selector: 'async-course-details-home',
@@ -46,7 +45,6 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
     <async-course-details-about id="about" [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
     <async-course-details-outcomes id="outcomes" [course]="course" *ngIf="isEmptyCourse"></async-course-details-outcomes>
   `,
-  styleUrls: [`../my-courses/my-courses.dark-theme.scss`]
 })
 export class CourseDetailsHomeComponent implements OnInit, OnDestroy { 
   subscriptions: Subscription[] = [];

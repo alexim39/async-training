@@ -21,7 +21,7 @@ import { LoadingSpinnerService } from '../../_common/services/loader/spinner.ser
   standalone: true,
   providers: [CourseService],
   imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
-  styleUrls: [`courses-list.light-theme.scss`],
+  styleUrls: [`courses-list.component.scss`],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 

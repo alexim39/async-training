@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   selector: 'async-index-intro-courses',
   standalone: true,
   imports: [MatCardModule, MatButtonModule, RouterModule, NgOptimizedImage, MatIconModule, CommonModule],
-  styleUrls: ['intro-courses.light-theme.scss'],
+  styleUrls: ['intro-courses.component.scss'],
   template: `
     <section id="intro-course">
 
