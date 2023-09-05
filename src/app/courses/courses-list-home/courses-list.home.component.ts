@@ -12,7 +12,6 @@ import { CourseInterface } from '../course.interface';
 import { Subscription } from 'rxjs';
 import { LoadingSpinnerComponent } from '../../_common/spinner.compnent';
 import { LoadingSpinnerService } from '../../_common/services/loader/spinner.service';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 
 /**
  * @title Main component for course listing
@@ -22,7 +21,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
   standalone: true,
   providers: [CourseService],
   imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
-  styleUrls: [`courses-list.light-theme.scss`, `courses-list.dark-theme.scss`],
+  styleUrls: [`courses-list.light-theme.scss`],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
@@ -31,7 +30,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
       <article>Courses List</article>
     </div>
 
-    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0">
       <mat-form-field appearance="outline">
         <mat-label>Search or filter courses</mat-label>
         <input matInput [(ngModel)]="filterCourse">
@@ -43,7 +42,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
 
   
     <ng-template [ngIf]="filteredCourseList.length > 0">
-      <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+      <section class="course">
         <mat-card (click)="loadCourse(course._id)" *ngFor="let course of filteredCourseList; index as i;">
           <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
 
@@ -63,7 +62,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
       </section>
   </ng-template>
   <ng-template [ngIf]="filteredCourseList.length == 0">
-    <div class="no-course-found" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+    <div class="no-course-found">
         <p>No course found</p>
     </div>
   </ng-template>
@@ -232,14 +231,12 @@ export class CoursesListHomeComponent implements OnInit {
   filterCourse = '';
   courses!: Array<CourseInterface>;
   //isEmptyCourse = true;
-  isDarkMode: boolean = false;
 
 
     constructor(
       private router: Router,
       private courseService: CourseService,
       public loadingSpinnerService: LoadingSpinnerService,
-      private themeTogglerService: ThemeTogglerService
     ) { }
 
     get filteredCourseList(): CourseInterface[] {
@@ -257,15 +254,6 @@ export class CoursesListHomeComponent implements OnInit {
             this.loadingSpinnerService.hide()
 
           }
-        })
-      )
-
-      this.subscriptions.push(
-        // Subscribe to the action
-        this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-          // check theme toogle status
-          this.isDarkMode = isDarkMode;
-          //console.log('Action triggered in nav.', isDarkMode);
         })
       )
     }

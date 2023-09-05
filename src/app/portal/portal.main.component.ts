@@ -12,15 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
   providers: [],
   imports: [MatIconModule, MatButtonModule],
   template: `
-    <div class="content">
+    <div class="portal-main-content">
       dashborad contents comes in here
     </div>
   `,
-  styles: [`
-.content {
-  background: yellow;
-}
-  `]
+  styles: [``]
 
 })
 export class PortalMainComponent implements OnInit {

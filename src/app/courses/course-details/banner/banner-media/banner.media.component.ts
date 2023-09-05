@@ -7,7 +7,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from '../banner-price/banner.price.component';
 import { BannerProgramComponent } from '../banner-program/banner.program.component';
 import { CourseInterface } from '../../../course.interface';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +15,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent],
   template: `
-  <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+  <section class="banner-media">
     <article>
         <video controls>
           <source [src]="mediaSource" type="video/mp4">
@@ -31,23 +30,11 @@ import { CommonModule } from '@angular/common';
 export class BannerMediaComponent implements OnInit, OnDestroy{
   mediaSource = `./assets/vid/website_promotion.mp4`;
   @Input() course!: CourseInterface
-  isDarkMode: boolean = false;
   subscriptions: Subscription[] = [];
 
-  constructor(
-    private themeTogglerService: ThemeTogglerService
-  ) {  }
+  constructor() {  }
 
-  ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
-      })
-    )
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     // unsubscribe list

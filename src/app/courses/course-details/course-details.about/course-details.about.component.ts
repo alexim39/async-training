@@ -15,34 +15,23 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule],
   template: `
-   <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <section class="course-detail-about">
     <article>
       <h3>About the Training</h3>
       <p [innerHTML]="course.about"></p>
     </article>
    </section>
   `,
-  styleUrls: [`course-details.about.light-theme.scss`, `course-details.about.dark-theme.scss`]
+  styleUrls: [`course-details.about.light-theme.scss`]
 })
 export class CourseDetailsAboutComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface
   subscriptions: Array<Subscription> = [];
   isDarkMode: boolean = false;
 
-  constructor(
-    private themeTogglerService: ThemeTogglerService,
-  ) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     // unsubscribe list

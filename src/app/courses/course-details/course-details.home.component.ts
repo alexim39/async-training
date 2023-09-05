@@ -25,7 +25,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
   imports: [MatToolbarModule, CommonModule, LoadingSpinnerComponent, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, CourseDetailsIntroComponent, CourseDetailsAboutComponent, CourseDetailsOutcomesComponent, CourseDetailsBannerComponent],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
-   <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <section class="breadcrumb-wrapper" *ngIf="isEmptyCourse">
       <!-- show when viewing from outside portal -->
       <div class="breadcrumb" *ngIf="!isPortalView">
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a> &gt;
@@ -34,7 +34,7 @@ import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.serv
       </div>
 
       <!-- show when viewing from inside portal -->
-      <div class="breadcrumb" *ngIf="isPortalView" [ngClass]="isDarkMode ? 'dark-mode' : ''">
+      <div class="breadcrumb" *ngIf="isPortalView">
           <a routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a> &gt;
           <a routerLink="/portal/courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Courses</a> &gt;
           <span>{{course.title | titlecase}}</span>
@@ -54,14 +54,12 @@ export class CourseDetailsHomeComponent implements OnInit, OnDestroy {
   course!: CourseInterface;
   isEmptyCourse = false;
   isPortalView = false;
-  isDarkMode: boolean = false;
 
   constructor(
     private router: Router,
     public activatedRoute: ActivatedRoute,
     private courseService: CourseService,
     public loadingSpinnerService: LoadingSpinnerService,
-    private themeTogglerService: ThemeTogglerService
   ) {}
 
   ngOnInit(): void {
@@ -87,15 +85,6 @@ export class CourseDetailsHomeComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in nav.', isDarkMode);
-      })
-    )
  
   }
 

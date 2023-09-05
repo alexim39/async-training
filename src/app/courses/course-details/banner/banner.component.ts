@@ -17,35 +17,24 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatToolbarModule, RouterModule, CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, BannerPriceComponent, BannerProgramComponent, BannerMediaComponent],
   template: `
-   <section [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <section class="banner">
     <async-banner-media [course]="course"></async-banner-media>
     <async-banner-price [course]="course"></async-banner-price>
     <async-banner-program [course]="course"></async-banner-program>
    </section>
   `,
-  styleUrls: [`banner.light-theme.scss`, `banner.dark-theme.scss`]
+  styleUrls: [`banner.light-theme.scss`]
 })
 export class CourseDetailsBannerComponent implements OnInit, OnDestroy {
   @Input() course!: CourseInterface
   //isEmptyCourse = false;
-  isDarkMode: boolean = false;
   subscriptions: Subscription[] = [];
 
   constructor(
-    private themeTogglerService: ThemeTogglerService
   ) {  }
 
 
-  ngOnInit(): void {
-    this.subscriptions.push(
-      // Subscribe to the action
-      this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
-        // check theme toogle status
-        this.isDarkMode = isDarkMode;
-        //console.log('Action triggered in TestimonialComponent.', isDarkMode);
-      })
-    )
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
     // unsubscribe list

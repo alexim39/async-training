@@ -1,21 +1,18 @@
-section {
-    background: #E0E0E0;
+.course-details-outcome {
     article {
       width: 60em;
       padding: 2em 0 2em 8em;
       h3 {
-        color: #004D40;
+        color: #03a48f;
       }
       p {
         text-align: justify;
         font-family: 'Courier New', monospace;
         font-size: 14px;
         line-height: 1.5em;
-        color: black;
       }
       ul {
         li {
-          color: black;
           font-weight: bold;
           line-height: 2;
         }
@@ -26,7 +23,7 @@ section {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-section {
+.course-details-outcome {
   article {
     width: 100%;
     padding: 1em;
@@ -42,7 +39,7 @@ section {
 
 /* iPads/tablet (portrait and landscape) */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {
-section {
+.course-details-outcome {
   article {
     width: 100%;
     padding: 1em;
@@ -58,7 +55,7 @@ section {
 
 /* Large screens -*/
 @media only screen and (min-width: 1824px) {
-section {
+.course-details-outcome {
   article {
     width: 70em;
   }

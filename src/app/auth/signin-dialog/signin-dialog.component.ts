@@ -23,7 +23,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
   providers: [ AuthApiService ],
   imports: [RouterModule, MatIconModule, MatButtonModule, CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatProgressBarModule],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSignIn(form.value)">
+    <form [formGroup]="form" (ngSubmit)="onSignIn(form.value)" class="signin">
       <h1>Sign in</h1>
       <span>Use your email to sign in</span>
 

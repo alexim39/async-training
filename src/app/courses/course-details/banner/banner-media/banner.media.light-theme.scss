@@ -1,5 +1,4 @@
-section {
-    background: #aaa;
+.banner-media {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -22,11 +21,5 @@ section {
   }
 
 
-    /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  section {
-    article {
-      background: #aaa;
-    }
-  }
-}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {}

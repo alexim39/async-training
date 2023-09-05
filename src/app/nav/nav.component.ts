@@ -18,9 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthApiService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { BreadcrumbComponent } from '../_common/breadcrumb.component';
-import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
 import { LoadingSpinnerService } from '../_common/services/loader/spinner.service';
 import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
+import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
   <async-notification-banner></async-notification-banner>
 
 
-   <mat-toolbar [ngClass]="isDarkMode ? 'dark-mode' : ''">
+   <mat-toolbar class="nav">
     <mat-toolbar-row>
 
     <span class="logo"><async-logo></async-logo></span>
@@ -57,8 +57,8 @@ import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
     <button class="view-on-desktop" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Get Started</button>
 
     <!-- light and dark theme toggle -->
-    <i matTooltip="Toggle light to dark mode" class="fa fa-moon-o" (click)="darkMode()" *ngIf="!isDarkMode"></i>
-    <i matTooltip="Togle dark to light mode" class="fa fa-sun-o" (click)="darkMode()" *ngIf="isDarkMode"></i>
+    <i matTooltip="Toggle light to dark mode" class="fa fa-moon-o" (click)="toggleTheme()" *ngIf="!isDarkMode"></i>
+    <i matTooltip="Toggle dark to light mode" class="fa fa-sun-o" (click)="toggleTheme()" *ngIf="isDarkMode"></i>
 
       <i class="fa fa-bars" (click)="toggleMobileNav()" id="toggle"></i>
 
@@ -87,7 +87,7 @@ import { LoadingSpinnerComponent } from '../_common/spinner.compnent';
       <a mat-menu-item>Item 2</a>
     </mat-menu> -->
   `,
-  styleUrls: [`nav.light-theme.scss`, `nav.dark-theme.scss`]
+  styleUrls: [`nav.light-theme.scss`]
 })
 export class NavComponent implements OnInit, OnDestroy {
   // init subscriptions list
@@ -115,6 +115,9 @@ export class NavComponent implements OnInit, OnDestroy {
         }
       )
     )
+
+    const currentTheme = this.themeTogglerService.getTheme();
+    this.themeTogglerService.setTheme(currentTheme);
   }
 
   signOut(): void {
@@ -128,8 +131,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.router.navigate(['/'])
       })
     )
-
-
   }
 
   openAuthComponent() {
@@ -140,10 +141,16 @@ export class NavComponent implements OnInit, OnDestroy {
     this.showMobileNav = !this.showMobileNav;
   }
 
-  darkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    // Trigger the action in the shared service
-    this.themeTogglerService.triggerToggleAction(this.isDarkMode);
+  toggleTheme() {
+    const currentTheme = this.themeTogglerService.getTheme();
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    // toggle icon
+    if (newTheme === 'dark') {
+      this.isDarkMode = true;
+    } else {
+      this.isDarkMode = false;
+    }
+    this.themeTogglerService.setTheme(newTheme);
   }
 
   lunchWhatsAppGroup() {

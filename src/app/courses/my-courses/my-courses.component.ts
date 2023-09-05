@@ -123,14 +123,14 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       
     
 
-    this.subscriptions.push(
+   /*  this.subscriptions.push(
       // Subscribe to the action
       this.themeTogglerService.toggleAction$.subscribe((isDarkMode) => {
         // check theme toogle status
         this.isDarkMode = isDarkMode;
         //console.log('Action triggered in nav.', isDarkMode);
       })
-    )
+    ) */
   }
 
   ngOnDestroy(): void {
