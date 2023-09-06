@@ -6,6 +6,8 @@ import { CourseDetailsHomeComponent } from "../courses/course-details/course-det
 import { PortalCoursesListComponent } from "./course.component";
 import { MyCoursesComponent } from "../courses/my-courses/my-courses.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { MyCoursesHomeComponent } from "../courses/my-courses/my-courses.home.component";
+import { MyCoursesDetailsComponent } from "../courses/my-courses/my-courses-details/my-courses-details.component";
 
 export const PortalRoutes: Routes = [
 
@@ -34,8 +36,18 @@ export const PortalRoutes: Routes = [
           },
           {
             path: 'my-courses',
-            component: MyCoursesComponent,
-            title:"My courses details - Course available for my study"
+            component: MyCoursesHomeComponent,
+            title:"My courses details - Course available for my study",
+            children: [
+              {
+                path: '',
+                component: MyCoursesComponent
+              },
+              {
+                path: 'details/:courseId',
+                component: MyCoursesDetailsComponent
+              }
+            ]
           },
           
         ]

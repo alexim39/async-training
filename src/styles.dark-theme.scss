@@ -144,6 +144,27 @@ body {
             color: var(--text-color);
          }
     }
+
+    .about-training {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    .about-async {
+        background-color: var(--intro-course-background);
+        color: var(--text-color);
+    }
+
+    .our-story, .mission-vision-corevalues {
+        
+        background-color: var(--background-color);
+        color: var(--text-color);
+
+        .mision-vision, .core-values {
+            background-color: var(--background-color);
+        color: var(--text-color);
+        }
+    }
 }
 
 

@@ -136,6 +136,6 @@ export class PortalSidenavComponent implements OnInit {
   @Input() user!: UserInterface;
 
   ngOnInit(): void {
-    console.log(this.user);
+    //console.log(this.user);
   }
 }
