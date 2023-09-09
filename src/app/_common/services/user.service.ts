@@ -8,7 +8,7 @@ export interface UserInterface {
   email: string;
   firstname: string;
   lastname: string;
-  id: string;
+  _id: string;
   courses?: Array<CourseInterface> | Array<string> | any;
   status: boolean;
 }

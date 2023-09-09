@@ -10,6 +10,7 @@ import { BannerComponent } from './banner/banner.component';
 import { WhyWeExistComponent } from './why-we-exist/why-we-exist.component';
 import { IntroCoursesComponent } from './intro-courses/intro-courses.component';
 import { TestimonialsComponent } from './testimonials/testimonials.component';
+import { LoadingSpinnerService } from '../_common/services/loader/spinner.service';
 
 
 @Component({
@@ -26,4 +27,12 @@ import { TestimonialsComponent } from './testimonials/testimonials.component';
   styles: [`
   `]
 })
-export class IndexComponent { }
+export class IndexComponent { 
+  constructor(
+    public loadingSpinnerService: LoadingSpinnerService
+  ) {}
+  
+  ngOnInit(): void {
+    this.loadingSpinnerService.hide()
+  }
+}

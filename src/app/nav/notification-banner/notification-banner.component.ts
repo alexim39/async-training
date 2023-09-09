@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   imports: [ RouterModule],
   template: `
     <section>
-        <p>Elevate your skills in Word, Excel, PowerPoint, Teams, and Outlook for maximum workplace productivity. <a routerLink="courses/details/64f1a27ce709366c3d55e247">JOIN NOW</a></p>
+        <p>Elevate your skills in Word, Excel, PowerPoint, Teams, and Outlook for maximum workplace productivity. <a routerLink="courses/details/64f1a27ce709366c3d55e247">JOIN LUNCH-TIME OFFICE TOOLS MASTERY SESSION NOW</a></p>
     </section>
   `,
   styles: [`
@@ -28,7 +28,8 @@ import { RouterModule } from '@angular/router';
             text-decoration: none;
             color: white; 
             font-size: 1em;   
-            color: #ffab40;  
+            color: yellow;  
+            /* color: #ffab40;  */ 
             font-weight: bolder;    
         }
     }

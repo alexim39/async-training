@@ -8,6 +8,7 @@ import { MyCoursesComponent } from "../courses/my-courses/my-courses.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { MyCoursesHomeComponent } from "../courses/my-courses/my-courses.home.component";
 import { MyCoursesDetailsComponent } from "../courses/my-courses/my-courses-details/my-courses-details.component";
+import { PaymentMsgComponent } from "./payment/payment-msg.component";
 
 export const PortalRoutes: Routes = [
 
@@ -56,6 +57,11 @@ export const PortalRoutes: Routes = [
         path: 'settings',
         component: SettingsComponent,
         title:"Settings - Dashboard management area"
+      },
+      {
+        path: 'payment',
+        component: PaymentMsgComponent,
+        title:"Course payment - Courses payment page",
       },
     ],
   },
