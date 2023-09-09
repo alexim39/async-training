@@ -30,7 +30,6 @@ import { MatIconModule } from '@angular/material/icon';
   `,
   styles: [`
     .about-training {
-        background-color: whitesmoke;
         padding: 4em;
         display: flex;
         justify-content: center;

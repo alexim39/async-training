@@ -8,19 +8,18 @@ import { CommonModule } from '@angular/common';
 import { CourseInterface } from '../../../course.interface';
 import { PaystackService } from 'src/app/_common/services/paystack.service';
 import { Subscription } from 'rxjs';
-import { Emitters } from 'src/app/_common/emitters/emitters';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthComponent } from 'src/app/auth/auth.component';
 import { UserInterface, UserService } from 'src/app/_common/services/user.service';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import Swal from 'sweetalert2';
 import { LoadingSpinnerService } from 'src/app/_common/services/loader/spinner.service';
 import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
+import { PaymentUpdaterService } from 'src/app/portal/payment/payment-updater.service';
 
 @Component({
   selector: 'async-banner-price',
   standalone: true,
-  providers: [PaystackService, UserService],
+  providers: [PaystackService, UserService, PaymentUpdaterService],
   imports: [MatToolbarModule, RouterModule, LoadingSpinnerComponent, MatIconModule, MatButtonModule, MatTooltipModule, CommonModule],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
@@ -32,7 +31,11 @@ import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
       <hr>
 
       <a *ngIf="!isUserEnrolled" mat-flat-button color="primary" (click)="joinNow()">Join Now</a>
-      <a *ngIf="isUserEnrolled" mat-flat-button color="accent" (click)="initiatePayment()">Make Payment</a>
+      
+      <a *ngIf="isUserEnrolled" mat-flat-button color="accent" (click)="initiatePayment()" [disabled]="isCoursePaidFor">Make Payment</a>
+      <div class="already-reg">
+        <small >You are already registered for the courese</small>
+      </div>
     </article>
 
   `,
@@ -46,7 +49,8 @@ export class BannerPriceComponent implements OnInit {
   removeOldPrice = true;
   user!: UserInterface;
   isUserEnrolled = false;
-  currentRouteCourseId = ''
+  currentRouteCourseId = '';
+  isCoursePaidFor = false;
 
   constructor(
     private router: Router,
@@ -54,6 +58,7 @@ export class BannerPriceComponent implements OnInit {
     public dialog: MatDialog,
     private userService: UserService,
     public loadingSpinnerService: LoadingSpinnerService,
+    private paymentUpdaterService: PaymentUpdaterService
     ) { }
 
   ngOnInit(): void {
@@ -74,6 +79,17 @@ export class BannerPriceComponent implements OnInit {
           res.courses.forEach((course: CourseInterface) => {
             if(course._id === this.currentRouteCourseId) {
               this.isUserEnrolled = true;
+
+              // check if user have paid for course
+              // Subscribe to check if user has already paid for course
+              this.paystackService.getPaymentRecords(this.user._id, this.course._id).subscribe((res) => {
+                // disable payment button
+                if (res.status == "success") {
+                  this.isCoursePaidFor = true;
+                } else {
+                  this.isCoursePaidFor = false;
+                }
+              })
             }
           })
         },
@@ -81,7 +97,14 @@ export class BannerPriceComponent implements OnInit {
           //Emitters.authEmitter.emit(false);
           this.authenticated = false;
         }
-      )
+      ),
+
+      // Subscribe to the payment complete action
+      this.paymentUpdaterService.action$.subscribe((res) => {
+        // disable payment button - if res is true
+        this.isCoursePaidFor = res;
+      }),
+
     )
 
   }
@@ -97,7 +120,7 @@ export class BannerPriceComponent implements OnInit {
        const amount = this.course.currentPrice; // 1000 NGN
  
        this.subscriptions.push(
-         this.paystackService.initiatePayment(amount, email).subscribe(response => {
+         this.paystackService.initiatePayment(amount, email, this.course._id, this.user._id).subscribe(response => {
            // Handle the response from Paystack, which may include a redirect URL for payment
            window.open(response.data.authorization_url, "_blank");
          // window.location.href = response.data.authorization_url;

@@ -52,8 +52,8 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
 
   
     <ng-template [ngIf]="filteredCourseList.length > 0">
-      <section id="intro-course">
-        <mat-card *ngFor="let course of filteredCourseList; index as i;">
+      <section class="course">
+        <mat-card *ngFor="let course of filteredCourseList; index as i;" (click)="viewMyCourseDetail(course._id)">
           <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
 
           <mat-card-content>
@@ -117,8 +117,11 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         }
       )
     )
-      
+  }
 
+  viewMyCourseDetail(courseId: string): void {
+    // redirect to course route
+    this.router.navigate([`/portal/courses/my-courses/details/${courseId}`])
   }
 
   ngOnDestroy(): void {

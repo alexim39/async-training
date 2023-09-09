@@ -52,10 +52,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
           </mat-error>
       </mat-form-field>
 
-      <button [disabled]="form.invalid || isSpinning" mat-flat-button color="accent">
-          <div class="loader" *ngIf="isSpinning"></div>
-          SIGN IN
-      </button>
+      <button [disabled]="form.invalid || isSpinning" mat-flat-button color="accent">SIGN IN</button>
 
       <a (click)="closeDialog()" [routerLink]="['/fp']">Forgot your password?</a>
 

@@ -82,14 +82,6 @@ body {
     form.signin, form.signup {
         background-color: var(--background-color);
         color: var(--text-color);
-        h1, span, mat-form-field {
-            color: var(--text-color);
-            background-color: var(--background-color);
-            mat-label, input, mat-error {
-                background-color: var(--background-color);
-                color: var(--text-color) !important;
-            }
-        }
     }
 
     .search-box, .no-course-found, .course  {
@@ -143,6 +135,32 @@ body {
          p{
             color: var(--text-color);
          }
+    }
+
+    .about-training {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    .about-async {
+        background-color: var(--intro-course-background);
+        color: var(--text-color);
+    }
+
+    .our-story, .mission-vision-corevalues {
+        
+        background-color: var(--background-color);
+        color: var(--text-color);
+
+        .mision-vision, .core-values {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+    }
+
+    .payment{
+        background-color: var(--background-color);
+        color: var(--text-color);
     }
 }
 

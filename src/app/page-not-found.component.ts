@@ -45,6 +45,7 @@ import { RouterModule } from '@angular/router';
 
 .contant_box_404{ 
     margin-top:-50px;
+    text-align: center;
     h3{
         font-size:30px; 
     }
@@ -61,7 +62,8 @@ import { RouterModule } from '@angular/router';
 @media only screen and (max-width: 600px) {
     .contant_box_404{ 
         padding: 1em;
-        h3{
+        h3 {
+            font-family: Cursive;
             font-size:20px; 
         }
         p {
