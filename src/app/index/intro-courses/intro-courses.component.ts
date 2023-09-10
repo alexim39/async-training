@@ -6,16 +6,46 @@ import { NgOptimizedImage } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { CourseInterface } from 'src/app/courses/course.interface';
+import { CourseService } from 'src/app/courses/course.service';
 
 @Component({
   selector: 'async-index-intro-courses',
   standalone: true,
+  providers: [CourseService],
   imports: [MatCardModule, MatButtonModule, RouterModule, NgOptimizedImage, MatIconModule, CommonModule],
   styleUrls: ['intro-courses.component.scss'],
   template: `
     <section id="intro-course">
 
-      <mat-card (click)="loadCourse()">
+
+
+    <ng-template [ngIf]="filteredCourseList.length > 0">
+        <mat-card (click)="loadCourse(course._id)" *ngFor="let course of filteredCourseList; index as i;">
+          <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
+
+          <mat-card-content>
+            <h1> {{course.title | titlecase}}</h1>
+            <p>{{course.coursePitch | slice:0:250 }}...</p>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <div class="price">
+              <span class="current">&#8358;{{course.currentPrice}}</span> <span class="divider"> | </span> <span class="old"> &#8358;{{course.oldPrice}}</span>
+            </div>
+            <div class="duration"> <span class="material-icons">calendar_month</span> {{course.duration | titlecase}}</div>
+            <div class="join"><span class="material-icons">arrow_forward</span></div>
+          </mat-card-actions>
+        </mat-card>
+  </ng-template>
+  <ng-template [ngIf]="filteredCourseList.length == 0">
+    <div class="no-course-found">
+        <p>No course found</p>
+    </div>
+  </ng-template>
+
+
+      <!-- <mat-card (click)="loadCourse()">
         <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
 
         <mat-card-content>
@@ -33,11 +63,11 @@ import { Subscription } from 'rxjs';
           <div class="join"><span class="material-icons">arrow_forward</span></div>
         </mat-card-actions>
 
-      </mat-card>
+      </mat-card> -->
 
 
 
-      <mat-card (click)="loadCourse()">
+      <!-- <mat-card (click)="loadCourse()">
         <img mat-card-image src="assets/img/ms-office.jpg" alt="Microsoft Office">
         <mat-card-content>
           <h1>Microsoft Office Suite</h1>
@@ -54,10 +84,10 @@ import { Subscription } from 'rxjs';
           <div class="join"><span class="material-icons">arrow_forward</span></div>
         </mat-card-actions>
 
-      </mat-card>
+      </mat-card> -->
 
 
-      <mat-card [routerLink]="['/routePath']" routerLinkActive="router-link-active">
+      <!-- <mat-card [routerLink]="['/routePath']" routerLinkActive="router-link-active">
         <img mat-card-image src="assets/img/excel.jpg" alt="Microsoft Excel">
 
         <mat-card-content>
@@ -75,10 +105,10 @@ import { Subscription } from 'rxjs';
           <div class="join"><span class="material-icons">arrow_forward</span></div>
         </mat-card-actions>
 
-      </mat-card>
+      </mat-card> -->
 
 
-      <mat-card [routerLink]="['/routePath']" routerLinkActive="router-link-active">
+      <!-- <mat-card [routerLink]="['/routePath']" routerLinkActive="router-link-active">
         <img mat-card-image src="assets/img/pmp.jpg" alt="Project Management">
 
         <mat-card-content>
@@ -96,7 +126,7 @@ import { Subscription } from 'rxjs';
           <div class="join"><span class="material-icons">arrow_forward</span></div>
         </mat-card-actions>
 
-      </mat-card>
+      </mat-card> -->
 
 
     </section>
@@ -112,19 +142,42 @@ import { Subscription } from 'rxjs';
   `
 })
 export class IntroCoursesComponent implements OnInit, OnDestroy {
-  // init subscriptions list
   subscriptions: Subscription[] = [];
+  filterCourse = '';
+  courses!: Array<CourseInterface>;
+  //restrictedFourCoursed!: Array<CourseInterface>;
 
   constructor(
     private router: Router,
-    ) { }
+    private courseService: CourseService,
+  ) { }
 
-  ngOnInit(): void {
-   
+  get filteredCourseList(): CourseInterface[] {
+    return this.courses.filter(course => course.title.toLowerCase().includes(this.filterCourse.toLowerCase()));
   }
 
-  loadCourse() {
-    this.router.navigateByUrl('/courses/details');
+  ngOnInit() {
+    //this.loadingSpinnerService.show();
+    
+    this.subscriptions.push(
+      this.courseService.getCourses().subscribe(courses => {
+        if (courses) {
+          this.courses = courses.slice(0, 4);// Take only the first 4 items from the array
+          //this.loadingSpinnerService.hide()
+
+        }
+      })
+    )
+  }
+
+  loadCourse(id: string) {
+    if (this.router.url.includes('portal')) {
+      // redirect to the course route on portal 
+      this.router.navigate([`/portal/courses/details/${id}`])
+    } else {
+      // redirect to course route
+      this.router.navigate([`/courses/details/${id}`])
+    }
   }
 
   ngOnDestroy() {
