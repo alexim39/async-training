@@ -230,7 +230,6 @@ export class CoursesListHomeComponent implements OnInit {
   subscriptions: Subscription[] = [];
   filterCourse = '';
   courses!: Array<CourseInterface>;
-  //isEmptyCourse = true;
 
 
     constructor(
@@ -259,7 +258,6 @@ export class CoursesListHomeComponent implements OnInit {
     }
 
     loadCourse(id: string) {
-
       if (this.router.url.includes('portal')) {
         // redirect to the course route on portal 
         this.router.navigate([`/portal/courses/details/${id}`])
@@ -267,7 +265,6 @@ export class CoursesListHomeComponent implements OnInit {
         // redirect to course route
         this.router.navigate([`/courses/details/${id}`])
       }
-
     }
 
     ngOnDestroy() {

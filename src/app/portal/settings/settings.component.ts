@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
   </section>
 
     <section>
-
+      <p style="text-align: center; color: orange; margin-top: 1em;">Settings feature coming soon!</p>
 
     </section>
   `,
