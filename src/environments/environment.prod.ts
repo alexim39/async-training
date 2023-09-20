@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   title: "Production Environment Variables",
-  apiUrl: 'prod.domain.com'
+  apiUrl: 'https://async-training-api.onrender.com'
 };
