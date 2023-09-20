@@ -7,7 +7,8 @@ import { CourseInterface } from './course.interface';
 @Injectable()
 export class CourseService {
   // Define API
-  apiURL = 'http://localhost:3000';
+  //apiURL = 'http://localhost:3000';
+  apiURL = 'https://async-training-api.onrender.com';
   constructor(private http: HttpClient) {}
   /*========================================
     CRUD Methods for consuming RESTful API
