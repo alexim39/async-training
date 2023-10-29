@@ -20,7 +20,7 @@ import {MatCardModule} from '@angular/material/card';
             <div class="mission">
               <h1>Our Mission</h1>
               <p>
-              "At Async, we innovate tailored tech solutions for thriving businesses."
+              "We innovate tailored technology solutions for thriving businesses."
               </p>
             </div>
 
