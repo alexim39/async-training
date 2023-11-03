@@ -5,6 +5,7 @@ import { CourseInterface } from '../../course.interface';
 import { Subscription } from 'rxjs';
 import { PaystackService } from 'src/app/_common/services/paystack.service';
 import { UserInterface } from 'src/app/_common/services/user.service';
+import { CommonModule } from '@angular/common';
 
 /**
  * @title Course Summary page
@@ -13,7 +14,7 @@ import { UserInterface } from 'src/app/_common/services/user.service';
   selector: 'async-my-courses-summary',
   standalone: true,
   providers: [PaystackService],
-  imports: [MatListModule, MatDividerModule],
+  imports: [MatListModule, MatDividerModule, CommonModule],
   template: `
     <div class="summary">
         <h3>Program Summary</h3>
@@ -22,7 +23,7 @@ import { UserInterface } from 'src/app/_common/services/user.service';
             <mat-list-item>Course Timing: <span>{{daysRemaining}}</span></mat-list-item>
             <mat-divider></mat-divider>
 
-            <mat-list-item>Course Fee: <span>{{isCoursePaidFor ? "Paid":"Not paid"}}</span></mat-list-item>
+            <mat-list-item>Course Fee: <span>{{isCoursePaidFor ? "Paid":"Not paid"}}</span> <span *ngIf="!isCoursePaidFor"> - <a class="make-payment" (click)="initiatePayment()">Pay Now</a></span></mat-list-item>
             <mat-divider></mat-divider>
 
            <!--  <mat-list-item>Item 3</mat-list-item>
@@ -42,6 +43,15 @@ import { UserInterface } from 'src/app/_common/services/user.service';
         padding: 1em;
         color: white;
         font-family: "Open Sans", sans;
+    }
+    .make-payment {
+      color: gray;
+      border: 1px solid darkorange;
+      padding: 0.2em;
+      border-radius: 10%;
+      font-size: 12px;
+      cursor: pointer;
+      color: darkorange
     }
     
   }
@@ -87,7 +97,7 @@ export class MyCoursesSummaryComponent implements OnInit, OnDestroy {
         if (daysRemaining === 0) {
             this.daysRemaining = "Course is ending today"
         } else if (daysRemaining < 0) {
-            this.daysRemaining = "Course have ended"
+            this.daysRemaining = "Course has ended"
         } else if (daysRemaining === 1) {
             this.daysRemaining = daysRemaining + 'day left';
         } else {
@@ -96,10 +106,26 @@ export class MyCoursesSummaryComponent implements OnInit, OnDestroy {
 
     }
 
+    initiatePayment(): void {
+  
+      // Replace with user's email and payment amount
+      const email = this.user.email;
+      const amount = this.course.currentPrice; // 1000 NGN
+
+      this.subscriptions.push(
+        this.paystackService.initiatePayment(amount, email, this.course._id, this.user._id).subscribe(response => {
+          // Handle the response from Paystack, which may include a redirect URL for payment
+          window.open(response.data.authorization_url, "_blank");
+        // window.location.href = response.data.authorization_url;
+
+        })
+      )
+    }
+
     ngOnDestroy() {
-        // unsubscribe list
-        this.subscriptions.forEach(subscription => {
-          subscription.unsubscribe();
-        });
-      }
+      // unsubscribe list
+      this.subscriptions.forEach(subscription => {
+        subscription.unsubscribe();
+      });
+    }
 }

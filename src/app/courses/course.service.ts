@@ -8,7 +8,7 @@ import { CourseInterface } from './course.interface';
 export class CourseService {
   // Define API
   //apiURL = 'http://localhost:3000';
-  apiURL = 'https://async-training-api.onrender.com';
+  apiURL = 'https://asynctrainingapi4-x0bw8fkh.b4a.run';
   constructor(private http: HttpClient) {}
   /*========================================
     CRUD Methods for consuming RESTful API

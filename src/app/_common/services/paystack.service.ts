@@ -16,7 +16,7 @@ export interface PaymentInterface {
 @Injectable()
 export class PaystackService {
   private paystackApiUrl = 'https://api.paystack.co';
-  private apiURL = 'https://async-training-api.onrender.com';
+  private apiURL = 'https://asynctrainingapi4-x0bw8fkh.b4a.run';
   private clientURL = 'http://training.async.ng/';
   //private apiURL = 'http://localhost:3000';
   //private clientURL = 'http://localhost:4200';
