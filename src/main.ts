@@ -5,6 +5,7 @@ import { environment } from './environments/environment.prod';
 import { RouterModule } from '@angular/router';
 import { routes } from './app/app-routing';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 if (environment.production) {
   enableProdMode();
@@ -12,6 +13,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     importProvidersFrom(RouterModule.forRoot(routes)),
     provideAnimations()
 ]
