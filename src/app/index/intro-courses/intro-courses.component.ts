@@ -22,7 +22,7 @@ import { CourseService } from 'src/app/courses/course.service';
 
     <ng-template [ngIf]="filteredCourseList.length > 0">
         <mat-card (click)="loadCourse(course._id)" *ngFor="let course of filteredCourseList; index as i;">
-          <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
+          <img mat-card-image src="assets/img/{{course.img}}" alt="Web Development">
 
           <mat-card-content>
             <h1> {{course.title | titlecase}}</h1>
