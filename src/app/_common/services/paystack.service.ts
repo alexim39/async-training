@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const headers = new HttpHeaders({
-  Authorization: `Bearer sk_test_2b176cfecf4bf2bf8ed1de53b55f868dc4ed9127`
+  Authorization: `Bearer sk_live_2288514c9d501669926c10dc09cff03b11b3bafa`
 });
 
 export interface PaymentInterface {
@@ -17,7 +17,7 @@ export interface PaymentInterface {
 export class PaystackService {
   private paystackApiUrl = 'https://api.paystack.co';
   private apiURL = 'https://asynctrainingapi5-70vtakyj.b4a.run';
-  private clientURL = 'http://training.async.ng/';
+  private clientURL = 'https://training.async.ng/';
   //private apiURL = 'http://localhost:3000';
   //private clientURL = 'http://localhost:4200';
 
