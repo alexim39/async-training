@@ -16,4 +16,5 @@ export interface CourseInterface {
     language?: string;
     category?: string;
     _id: string;
+    img?: string;
 }
