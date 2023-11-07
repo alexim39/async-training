@@ -7,7 +7,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BannerPriceComponent } from '../banner-price/banner.price.component';
 import { CourseInterface } from '../../../course.interface';
 import { CommonModule } from '@angular/common';
-import { ThemeTogglerService } from 'src/app/_common/services/theme-toggler.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,7 +20,9 @@ import { Subscription } from 'rxjs';
       <mat-icon>calendar_today</mat-icon>
       <div>
         <span>Duration</span>
-        <small> {{course.duration | titlecase}} <span class="start-date"> ({{course.startDate | date }} - {{course.endDate | date }})</span></small>
+        <small> {{course.duration | titlecase}} 
+          <span *ngIf="!isSelfPaced" class="start-date"> ({{course.startDate | date }} - {{course.endDate | date }})</span>
+        </small>
       </div>
     </section>
 
@@ -56,11 +57,17 @@ import { Subscription } from 'rxjs';
 export class BannerProgramComponent implements OnInit, OnDestroy{
   @Input() course!: CourseInterface
   subscriptions: Subscription[] = [];
+  isSelfPaced!: boolean;
 
-  constructor(
-  ) {  }
+  constructor() {  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.course.duration === "self-paced") {
+      this.isSelfPaced = true;
+    } else {
+      this.isSelfPaced = false;
+    }
+  }
 
   ngOnDestroy() {
     // unsubscribe list

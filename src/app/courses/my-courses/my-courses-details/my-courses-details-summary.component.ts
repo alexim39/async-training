@@ -23,7 +23,11 @@ import { CommonModule } from '@angular/common';
             <mat-list-item>Course Timing: <span>{{daysRemaining}}</span></mat-list-item>
             <mat-divider></mat-divider>
 
-            <mat-list-item>Course Fee: <span>{{isCoursePaidFor ? "Paid":"Not paid"}}</span> <span *ngIf="!isCoursePaidFor"> - <a class="make-payment" (click)="initiatePayment()">Pay Now</a></span></mat-list-item>
+            <mat-list-item>Course Fee: 
+              <!-- <span>{{isCoursePaidFor ? "Paid":"Not paid"}}</span>  -->
+              <span *ngIf="isCoursePaidFor"> - <a class="paid">Paid</a></span>
+              <span *ngIf="!isCoursePaidFor"> - <a class="make-payment" (click)="initiatePayment()">Pay Now</a></span>
+            </mat-list-item>
             <mat-divider></mat-divider>
 
            <!--  <mat-list-item>Item 3</mat-list-item>
@@ -52,6 +56,14 @@ import { CommonModule } from '@angular/common';
       font-size: 12px;
       cursor: pointer;
       color: darkorange
+    }
+    .paid {
+      color: gray;
+      border: 1px solid #00838f;
+      padding: 0.2em;
+      border-radius: 10%;
+      font-size: 14px;
+      color: #00838f
     }
     
   }

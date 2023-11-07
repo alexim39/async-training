@@ -34,7 +34,7 @@ import { PaymentUpdaterService } from 'src/app/portal/payment/payment-updater.se
       
       <a *ngIf="isUserEnrolled" mat-flat-button color="accent" (click)="initiatePayment()" [disabled]="isCoursePaidFor">Make Payment</a>
       <div class="already-reg" *ngIf="!isCoursePaidFor && isUserEnrolled">
-        <small >You are already registered for the courese</small>
+        <small >You are already registered in this course</small>
       </div>
     </article>
 
