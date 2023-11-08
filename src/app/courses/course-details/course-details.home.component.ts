@@ -40,11 +40,39 @@ import { LoadingSpinnerService } from '../../_common/services/loader/spinner.ser
       </div>
     </section>
 
-    <async-course-details-intro id="intro" [course]="course" *ngIf="isEmptyCourse"></async-course-details-intro>
-    <async-course-details-banner id="banner" [course]="course" *ngIf="isEmptyCourse"></async-course-details-banner>
-    <async-course-details-about id="about" [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
-    <async-course-details-outcomes id="outcomes" [course]="course" *ngIf="isEmptyCourse"></async-course-details-outcomes>
+    <div class="page-wraper">
+      <div id="intro">
+        <async-course-details-intro [course]="course" *ngIf="isEmptyCourse"></async-course-details-intro>
+      </div>
+      <div id="banner">
+        <async-course-details-banner [course]="course" *ngIf="isEmptyCourse"></async-course-details-banner>
+      </div>
+      <div id="about">
+        <async-course-details-about [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
+      </div>
+      <div id="outcomes">
+        <async-course-details-outcomes [course]="course" *ngIf="isEmptyCourse"></async-course-details-outcomes>
+      </div>
+    </div>
   `,
+styles: [`
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .page-wraper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* iPads/tablet (portrait and landscape) */
+@media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {}
+
+/* Desktops and laptops  (Laptop and desktop, 1025px and up ) */
+@media only screen and (min-device-width: 1025px)  {}
+
+/* Large screens -*/
+@media only screen and (min-width: 1824px) {}
+`]
 })
 export class CourseDetailsHomeComponent implements OnInit, OnDestroy { 
   subscriptions: Subscription[] = [];
