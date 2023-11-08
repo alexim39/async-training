@@ -54,7 +54,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
     <ng-template [ngIf]="filteredCourseList.length > 0">
       <section class="course">
         <mat-card *ngFor="let course of filteredCourseList; index as i;" (click)="viewMyCourseDetail(course._id)">
-          <img mat-card-image src="assets/img/web-design.jpg" alt="Web Development">
+          <img mat-card-image src="assets/img/{{course.img}}" alt="Web Development">
 
           <mat-card-content>
             <h1> {{course.title | titlecase}}</h1>

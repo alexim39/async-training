@@ -40,8 +40,12 @@ import {MatChipsModule} from '@angular/material/chips';
                     <span class="item">All Courses</span>
                 </a>
                 <a routerLink="/portal/courses/my-courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <span class="icon"><mat-icon>bookmark_added</mat-icon></span>
+                    <span class="icon"><mat-icon>domain_verification</mat-icon></span>
                     <span class="item">My Courses</span>
+                </a>
+                <a routerLink="/portal/booking" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <span class="icon"><mat-icon>event</mat-icon></span>
+                    <span class="item">Book Instructor</span>
                 </a>
             </li>
             <li>

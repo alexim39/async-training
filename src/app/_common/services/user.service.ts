@@ -16,7 +16,7 @@ export interface UserInterface {
 @Injectable()
 export class UserService {
   // Define API
-  apiURL = 'https://async-training-api.onrender.com';
+  apiURL = 'https://asynctrainingapi5-70vtakyj.b4a.run';
   //apiURL = 'http://localhost:3000';
   constructor(private http: HttpClient) {}
   /*========================================

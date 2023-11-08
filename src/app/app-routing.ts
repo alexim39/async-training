@@ -10,7 +10,7 @@ export const routes: Routes = [
     loadChildren: () => import('./courses/course-details-routes').then(routes => routes.CoursesListRoutes) 
   },
   { path: 'about-async-training', loadComponent: () => import('./about/about.component').then(c => c.AboutComponent) },
-  //{ path: 'cart', loadComponent: () => import('./cart/cart.component').then(c => c.CartComponent) },
+  //{ path: 'booking', loadChildren: () => import('./portal/booking/booking-routes').then(c => c.BookingListRoutes) },
   { path: 'portal', loadChildren: () => import('./portal/portal-routes').then(routes => routes.PortalRoutes) },
 
   // should be the last path on routes

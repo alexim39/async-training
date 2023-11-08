@@ -126,7 +126,7 @@ export class SigninDialogComponent implements OnInit, OnDestroy {
           Swal.fire({
             position: 'bottom',
             icon: 'warning',
-            text: 'This email does not exist in our platform',
+            text: "Check your email or password",
             showConfirmButton: false,
             timer: 4000
           });
@@ -135,7 +135,7 @@ export class SigninDialogComponent implements OnInit, OnDestroy {
           Swal.fire({
             position: 'bottom',
             icon: 'warning',
-            text: 'Please check your account password and try again',
+            text: "Check your email or password",
             showConfirmButton: false,
             timer: 4000
           });

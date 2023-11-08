@@ -38,3 +38,11 @@
       }
     }
   }
+
+/* iPads/tablet (portrait and landscape) */
+@media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {
+  .banner-program{
+    display: flex;
+    flex-direction: row;
+  }
+}

@@ -44,6 +44,7 @@ import { CommonModule } from '@angular/common';
         a {
           color: white;
           text-decoration: underline;
+          font-weight: bold;
         }
       }
     }

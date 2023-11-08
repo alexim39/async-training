@@ -16,25 +16,22 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-/*   .banner {
-    height: 45em;
+  .banner {
+    height: 36em;
     position: relative;
     top: 0;
     right: 0;
-    async-banner-media {
-      width: 100%;
-    }
-  } */
+  }
 }
 
 /* iPads/tablet (portrait and landscape) */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {
-/*   .banner {
-    height: 45em;
+  .banner {
+    height: auto;
     position: relative;
     top: 0;
     right: 0;
-  } */
+  }
 }
 
 /* Desktops and laptops  (Laptop and desktop, 1025px and up ) */
