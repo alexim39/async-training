@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
   template: `
    <section class="course-detail-about">
     <article>
-      <h3>About the Training</h3>
+      <h3>About the Course</h3>
       <p [innerHTML]="course.about"></p>
     </article>
    </section>
