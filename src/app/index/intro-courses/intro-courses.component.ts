@@ -162,7 +162,8 @@ export class IntroCoursesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.courseService.getCourses().subscribe(courses => {
         if (courses) {
-          this.courses = courses.slice(0, 4);// Take only the first 4 items from the array
+          this.courses = courses.sort(() => Math.random() - Math.random()).slice(0, 4) // select random 4 course from list
+          //this.courses = courses.slice(0, 4);// Take only the first 4 items from the array
           //this.loadingSpinnerService.hide()
 
         }

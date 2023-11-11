@@ -248,7 +248,8 @@ export class CoursesListHomeComponent implements OnInit {
       this.subscriptions.push(
         this.courseService.getCourses().subscribe(courses => {
           if (courses) {
-            this.courses = courses;
+            this.courses = courses.sort(() => Math.random() - Math.random()) // list random course from list
+            //this.courses = courses;
             //this.isEmptyCourse = false;
             this.loadingSpinnerService.hide()
 

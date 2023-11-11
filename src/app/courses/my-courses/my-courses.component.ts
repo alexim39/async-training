@@ -106,7 +106,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       this.userService.getUser().subscribe(
         res => {
           this.user = res as UserInterface;
-          this.courses = this.user.courses
+          this.courses = this.user.courses.sort(() => Math.random() - Math.random()) // list random course from list
           this.loadingSpinnerService.hide();
         },
         error => {

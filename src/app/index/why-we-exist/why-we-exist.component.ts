@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 
       <small>Use our flexible learning path, adjust your learning to suit your time  — all in one place. Open a free account in minutes and learn any time.</small>
 
-      <button (click)="openAuthComponent()" mat-flat-button color="accent" routerLink="courses" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">JOIN NOW</button>
+      <button (click)="openAuthComponent()" mat-flat-button color="accent">JOIN NOW</button>
     </aside>
   `,
   styleUrls: ['why-we-exist.component.scss'],

@@ -108,10 +108,11 @@ body {
         border-top: 1px solid var(--intro-course-background);
     }
 
-    .course-detail-about {
+    .course-detail-about, .course-detail-about-banner {
         background-color: var(--intro-course-background);
         color: var(--text-color); 
     }
+
 
     .course-details-outcome {
         background-color: var(--background-color);
