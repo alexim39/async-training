@@ -44,9 +44,9 @@ import { LoadingSpinnerService } from '../../_common/services/loader/spinner.ser
       <div id="intro">
         <async-course-details-intro [course]="course" *ngIf="isEmptyCourse"></async-course-details-intro>
       </div>
-      <div id="banner">
+      <!-- <div id="banner">
         <async-course-details-banner [course]="course" *ngIf="isEmptyCourse"></async-course-details-banner>
-      </div>
+      </div> -->
       <div id="about">
         <async-course-details-about [course]="course" *ngIf="isEmptyCourse"></async-course-details-about>
       </div>

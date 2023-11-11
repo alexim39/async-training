@@ -1,7 +1,10 @@
 
 .course-detail-about {
-    article {
-      width: 60em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+    .writeup {
+      width: 50%;
       padding: 2em 0 2em 8em;
       h3 {
         color: #ffab40;
@@ -13,18 +16,29 @@
         line-height: 1.5em;
       }
     }
+
+    .course-detail-about-banner {
+      width: 30%;
+      padding-right: 5%;
+      padding-top: 8%;
+    }
   }
 
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 .course-detail-about {
-  article {
+  display: flex;
+  flex-direction: column;
+  .writeup {
     width: 100%;
     padding: 1em;
     p {
       width: 90%;
     }
+  }
+  .course-detail-about-banner {
+    width: auto;
   }
 }
 }
@@ -32,12 +46,17 @@
 /* iPads/tablet (portrait and landscape) */
 @media only screen and (min-device-width: 601px) and (max-device-width: 1024px) {
 .course-detail-about {
-  article {
+  display: flex;
+  flex-direction: column;
+  .writeup {
     width: 100%;
     padding: 1em;
     p {
       width: 90%;
     }
+  }
+  .course-detail-about-banner {
+    width: auto;
   }
 }
 }
