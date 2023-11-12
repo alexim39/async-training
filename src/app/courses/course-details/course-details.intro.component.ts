@@ -25,7 +25,6 @@ import { CommonModule } from '@angular/common';
       background: #00838F;
       article {
         color: white;
-        width: 60em;
         padding: 2em 0 2em 8em;
         h2 {
           font-family: Garamond, serif;
