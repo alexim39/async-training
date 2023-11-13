@@ -13,7 +13,6 @@ import { LoadingSpinnerComponent } from 'src/app/_common/spinner.compnent';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { CourseDetailsAccordionComponent } from './course-details-accordion.component';
-import { MyCoursesDetailsCardsComponent } from '../my-courses-details-cards.component';
 import { MyCoursesSummaryComponent } from './my-courses-details-summary.component';
 
 /**
@@ -23,7 +22,7 @@ import { MyCoursesSummaryComponent } from './my-courses-details-summary.componen
     selector: 'async-my-course-details',
     standalone: true,
     providers: [CourseService],
-    imports: [CommonModule, RouterModule, MyCoursesDetailsCardsComponent, MatExpansionModule, MyCoursesSummaryComponent, LoadingSpinnerComponent, MatListModule, MatButtonModule, CourseDetailsAccordionComponent],
+    imports: [CommonModule, RouterModule, MatExpansionModule, MyCoursesSummaryComponent, LoadingSpinnerComponent, MatListModule, MatButtonModule, CourseDetailsAccordionComponent],
     template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
@@ -38,9 +37,6 @@ import { MyCoursesSummaryComponent } from './my-courses-details-summary.componen
     </section>
 
 <div class="course-report">
-        <div class="cards">
-            <async-my-courses-details-card></async-my-courses-details-card>
-        </div>
 
 
         <div class="contents">

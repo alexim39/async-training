@@ -31,9 +31,10 @@ import {MatIconModule} from '@angular/material/icon';
         <mat-icon class="icon">grade</mat-icon>
         <mat-card-content>Grade 0%</mat-card-content>
       </mat-card>
+     
     </div>
 
-
+    <hr>
 
   `,
   styles: [`
@@ -69,6 +70,9 @@ import {MatIconModule} from '@angular/material/icon';
               font-weight:bolder;
             }
         }
+    }
+    hr {
+      opacity: 0.1;
     }
   `]
 })

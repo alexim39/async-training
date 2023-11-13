@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { UserInterface, UserService } from 'src/app/_common/services/user.service';
 import { Emitters } from 'src/app/_common/emitters/emitters';
+import { MyCoursesDetailsCardsComponent } from './my-courses-details-cards.component';
 
 /**
  * @title My course component
@@ -22,7 +23,7 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
   selector: 'async-my-courses',
   standalone: true,
   providers: [CourseService, UserService],
-  imports: [MatButtonModule, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
+  imports: [MatButtonModule, MyCoursesDetailsCardsComponent, LoadingSpinnerComponent, FormsModule, MatInputModule, MatIconModule, MatFormFieldModule, MatCardModule, RouterModule, NgOptimizedImage, CommonModule],
   template: `
   <!-- show when viewing from inside portal -->
   <section class="breadcrumb-wrapper">
@@ -33,12 +34,22 @@ import { Emitters } from 'src/app/_common/emitters/emitters';
     </div>
   </section>
 
-    <section>
+  <section>
     <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
 
     <div class="courses-list">
       <article>Registered Courses</article>
     </div>
+
+
+    <div class="all-courses-progress-cards">
+      <async-my-courses-details-card></async-my-courses-details-card>
+    </div>
+
+
+
+
+
 
     <div class="search-box" *ngIf="filteredCourseList.length > 0 || filteredCourseList.length == 0">
       <mat-form-field appearance="outline">

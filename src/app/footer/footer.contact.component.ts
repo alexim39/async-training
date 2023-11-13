@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
         <article>
           <strong>Email</strong>
-          <p> contacts@async.ng, <br>  async.contacts@gmail.com</p>
+          <p> contacts&#64;async.ng, <br>  async.contacts&#64;gmail.com</p>
         </article>
 
         <article>
