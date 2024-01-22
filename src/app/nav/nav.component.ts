@@ -42,6 +42,7 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
     <span class="spacer"></span>
 
     <a class="view-on-desktop" mat-button routerLink="/portal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="authenticated">Dashboard</a>
+    <a class="view-on-desktop" mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Home</a>
     <a class="view-on-desktop" mat-button routerLink="about-async-training" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About Us</a>
     <a class="view-on-desktop" mat-button routerLink="courses" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="!authenticated">Courses</a>
 
@@ -67,6 +68,8 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
 
 
     <mat-toolbar-row class="mobile-nav" id="mobile-nav" *ngIf="showMobileNav">
+      <a mat-button routerLink="/portal" *ngIf="authenticated">Dashboard</a>
+      <a mat-button routerLink="/" *ngIf="!authenticated">Home</a>
       <a mat-button routerLink="about-async-training">About Us</a>
       <a mat-button routerLink="courses" *ngIf="!authenticated">Courses</a>
       
