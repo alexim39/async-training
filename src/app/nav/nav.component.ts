@@ -30,11 +30,14 @@ import { ThemeTogglerService } from '../_common/services/theme-toggler.service';
   imports: [MatToolbarModule, BreadcrumbComponent, LoadingSpinnerComponent, MatDialogModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule, LogoComponent, CommonModule, MatMenuModule, NotificationBannerComponent, HttpClientModule],
   template: `
   <async-loading-spinner *ngIf="loadingSpinnerService.isShowing()"></async-loading-spinner>
-  <!-- THIS IS A TEMPORARY NOTIFICATION BANNER - FOR TRAILING TRAINING -->
-  <async-notification-banner></async-notification-banner>
 
 
    <mat-toolbar class="nav">
+
+     <!-- THIS IS A TEMPORARY NOTIFICATION BANNER - FOR TRAILING TRAINING -->
+     <async-notification-banner></async-notification-banner>
+
+
     <mat-toolbar-row>
 
     <span class="logo"><async-logo></async-logo></span>

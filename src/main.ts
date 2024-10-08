@@ -1,8 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment.prod';
-import { RouterModule, provideRouter, withHashLocation } from '@angular/router';
+import { provideRouter,  } from '@angular/router';
 import { routes } from './app/app-routing';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
@@ -12,7 +12,8 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes, withHashLocation()),
+    //provideRouter(routes, withHashLocation()),
+    provideRouter(routes),
     //importProvidersFrom(RouterModule.forRoot(routes)),
     provideAnimations()
   ]

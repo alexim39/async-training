@@ -39,12 +39,13 @@ import { CommonModule } from '@angular/common';
           font-family: 'Courier New', monospace;
           font-size: 14px;
           line-height: 1.5em;
-        }
-        a {
+          a {
           color: white;
           text-decoration: underline;
           font-weight: bold;
         }
+        }
+
       }
     }
 

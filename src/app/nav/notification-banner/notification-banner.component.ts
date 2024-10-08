@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 
 /**
  * @title Application top notifcation banner
@@ -8,33 +8,50 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'async-notification-banner',
   standalone: true,
-  imports: [ RouterModule],
+  imports: [RouterModule, CommonModule],
   template: `
     <section>
-        <p>Elevate your skills in Word, Excel, PowerPoint, Teams, and Outlook for maximum workplace productivity. 
-          <a routerLink="courses/details/64f1a27ce709366c3d55e247">JOIN LUNCH-TIME MS OFFICE SUITE MASTERY SESSION NOW</a>
-        </p>
+      <p>Artificial Intelligence (AI): Unlock The Power of AI in the Workplace, Boost Your Career & Productivity - 
+        <a routerLink="courses/details/670500a1ab19ecfa4e733332" [ngClass]="{ blink: isBlinking }">JOIN OUR FREE 2 DAYS LUNCHBOX AI TRAINING</a>
+      </p>
     </section>
   `,
   styles: [`
     section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #00838F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #00838F;
+      color: white;
+      font-family: ui-rounded;
+      padding-left: 1em;
+      padding-right: 1em;
+      font-size: 0.9em;
+      a {
+        text-decoration: none;
         color: white;
-        font-family: ui-rounded;
-        padding-left: 1em;
-        padding-right: 1em;
-        a {
-            text-decoration: none;
-            color: white; 
-            font-size: 1em;   
-            color: yellow;  
-            /* color: #ffab40;  */ 
-            font-weight: bolder;    
+        font-size: 1em;
+        color: orange;
+        /* color: #ffab40; */
+        font-weight: bolder;
+      }
+      .blink {
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0% {
+          opacity: 1;
         }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
     }
   `]
 })
-export class NotificationBannerComponent {}
+export class NotificationBannerComponent {
+  isBlinking = true;
+}
