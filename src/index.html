@@ -1,82 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <style type="text/css">
-    body, html {
-      height: 100%;
-    }
-    .app-loading {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      font-size: 12px;
-    }
 
-    .app-loading .spinner {
-      height: 160px;
-      width: 160px;
-      animation: rotate 2s linear infinite;
-      transform-origin: center center;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-    }
-
-    .app-loading .spinner .path {
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-      animation: dash 1.5s ease-in-out infinite;
-      stroke-linecap: round;
-      stroke: #006064;
-    }
-
-    @keyframes rotate {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes dash {
-      0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-      }
-      50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35px;
-      }
-      100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124px;
-      }
-    }
-  </style>
 <head>
   <meta charset="utf-8">
-  <title>Async SkillUp Training - Convenient Online Training Platform</title>
-  <base href="/">
+  <title>Async SkillUp Training - Online Courses for Personal, Career, and Workplace Development</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="keywords" content="Async online training, Online Microsoft office training, Async coding training, web design training, Async solutions limited, Bonny web and coding training, Port harcourt web and coding training">
-  <meta name="description" content="A digitally powered online training at your convenience">
+  
+  <!-- Optimized Meta Tags -->
+  <meta name="description" content="Async Solutions Limited offers convenient online training for self-development, personal growth, soft skills, workplace skills, and career advancement. Learn Microsoft Office, web design, coding, and more. Start your self-development journey today.">
+  <meta name="keywords" content="online training, self-development, career development, workplace training, soft skills, coding, web design, Microsoft Office, Async Solutions Limited, remote learning, career advancement, online courses, personal growth">
+  <meta name="author" content="Async Solutions Limited">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://training.async.ng/">
+  
+  <!-- Open Graph for Social Sharing -->
+  <meta property="og:title" content="Async SkillUp Training - Online Learning for Personal and Career Development">
+  <meta property="og:description" content="Join Async Solutions Limited's online training platform for career development, soft skills, and personal growth. Learn at your convenience with real-time analytics.">
+  <meta property="og:url" content="https://training.async.ng/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://training.async.ng/assets/og-image.jpg">
+
+  <!-- Twitter Card for Social Sharing -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Async SkillUp Training - Convenient Online Learning">
+  <meta name="twitter:description" content="Boost your skills with Async Solutions Limited's online courses. Get trained in coding, Microsoft Office, and more. Perfect for personal growth and career advancement.">
+  <meta name="twitter:image" content="https://training.async.ng/assets/twitter-image.jpg">
+
+  <!-- Schema.org Markup for Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Async Solutions Limited",
+    "url": "https://training.async.ng/",
+    "logo": "https://training.async.ng/assets/logo.png",
+    "sameAs": [
+      "https://www.facebook.com/AsyncSkillUp",
+      "https://www.twitter.com/AsyncSkillUp",
+      "https://www.linkedin.com/company/asyncsolutionslimited"
+    ],
+    "description": "Async SkillUp offers online training programs in personal development, soft skills, workplace readiness, and career growth. Our platform is designed for learners seeking flexibility and convenience.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+234-123-456-7890",
+      "contactType": "Customer Service"
+    }
+  }
+  </script>
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body class="mat-typography">
   <async-root>
     <main class="app-loading">
-      <div class="logo">Getting things ready!</div>
+      <div class="logo">Preparing your learning platform!</div>
       <svg class="spinner" viewBox="25 25 50 50">
         <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="1" stroke-miterlimit="10"/>
       </svg>
     </main>
   </async-root>
+
+  <!-- Script for Analytics (example: Google Analytics) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_TRACKING_ID');
+  </script>
 </body>
+
 </html>
